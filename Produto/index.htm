@@ -4000,26 +4000,8 @@ Code b-alert
 
 
                                         <div id="pdpCarouselContainer_350271833" class="mainMedia prod-img-container">
-                                            <div class="mainMedia_imageContainer">
-                                                <picture class="mainMedia_pictureContainer">
-                                                    <source
-                                                        srcset="./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_003.webp 400w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_006.webp 550w, ./src/Laredoute/img/Laredoute/img/5118db1a47ab4ac32be95587ff8554be.webp 650w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_010.webp 700w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_011.webp 800w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_007.webp 1100w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_008.webp 1200w"
-                                                        sizes="(min-width: 1360px) 680px, (min-width: 1200px) 641px, (min-width: 992px) 535px, (min-width: 768px) 407px, 100vw">
-                                                    <img src="./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_002.webp"
-                                                        class="mainMedia_image" alt="" title=""
-                                                        data-cerberus="./src/Laredoute/img/img_pdp_thumbnails0" data-twic-bot="resize=640">
-                                                </picture>
-                                                <picture class="mainMedia_pictureContainer">
-                                                    <source
-                                                        srcset="./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_005.webp 300w, ./js/5118db1a47ab4ac32be95587ff8554be_003.webp 400w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_006.webp 550w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be.webp 650w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_010.webp 700w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_011.webp 800w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_007.webp 1100w, ./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_008.webp 1200w"
-                                                        sizes="(min-width: 1360px) 680px,
-                 (min-width: 1200px) 641px,
-                 (min-width: 992px) 535px,
-                 (min-width: 768px) 407px,
-                 100vw">
-
-
-                                                </picture>
+                                            <div class="mainMedia_imageContainer" style="padding:0%">
+                                                <canvas id="meuCanvas"></canvas>
                                             </div>
 
                                             <button id="syteButton" class="syte_button">
@@ -4190,15 +4172,147 @@ Code b-alert
                                         <div id="filterColorContainer_350271833"
                                             class="pdp-filter filter-colour disabled" style=""
                                             data-group="#product-350271833" tabindex="0">
-                                            <div class="pdp-filter-label text-ellipsis" data-cerberus="dropdownColor">
-                                                <img id="filterColorThumb_350271833"
-                                                    class="filter-color-thumbnail twic-done"
-                                                    src="./src/Laredoute/img/5118db1a47ab4ac32be95587ff8554be_004.webp"
-                                                    data-twic-src="image:/products/5/1/1/5118db1a47ab4ac32be95587ff8554be.jpg?imgopt=twic"
-                                                    data-twic-bot="none" alt="Natural">
-                                                <span id="filterColorLabel_350271833" class="pdp-filter-label-choice"
-                                                    data-cerberus="pdp-colour-selected">Natural</span>
+                                            <div class="" style="">
+                                                <div class="">
+                                                    <img src="./src/ico_texture.png" class="ico_textura" alt="">
+                                                    <b>Material:</b>
+                                                    <button id="btn_tipo_madeira" class="btn_tipo_material" >Madeira</button>
+                                                    <button id="btn_tipo_metal" class="btn_tipo_material" >Metal</button>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div id="list_mat_madeira">       
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture0" class="texture" ></button>
+                                                <span class="tooltip-mvtext">TEXTURA 0</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture1" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 1</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture2" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 2</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture3" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 3</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture4" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 4</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture5" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 5</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture6" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 6</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture7" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 7</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture8" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 8</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture9" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 9</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture10" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 10</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture11" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 11</span>
+                                            </div>
+                                     <!--        <div class="tooltip-mv">
+                                                <img id="img_texture4" class="texture" src="./../../src/texture/madeira/wood_table_001_diff_4k.jpg"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 4</span>
+                                            </div> 
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture5" class="texture" src="./../../src/texture/madeira/wood_table_worn_diff_4k.jpg"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 5</span>
+                                            </div>  
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture6" class="texture" src="./../../src/texture/madeira/Wood030_4K_Color.png"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 6</span>
+                                            </div>  
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture7" class="texture" src="./../../src/texture/madeira/WoodFloor051_2K_Color.jpg"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 7</span>
+                                            </div>  
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture8" class="texture" src="./../../src/texture/madeira/Wood032_4K_Color.png"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 8</span>
+                                            </div> 
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture9" class="texture" src="./../../src/texture/madeira/Wood069_4K_Color.png"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 9</span>
+                                            </div> 
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture10" class="texture" src="./../../src/texture/madeira/WoodFloor044_4K_Color.png"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 10</span>
+                                            </div> 
+                                            <div class="tooltip-mv">
+                                                <img id="img_texture11" class="texture" src="./../../src/texture/madeira/WoodFloor048_4K_Color.png"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 11</span>
+                                            </div>  -->
+
+                                        </div>
+                                        <div id="list_mat_metal">
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture12" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 12</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture13" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 13</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture14" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 14</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture15" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 15</span>
+                                            </div>
+                                           <!--  <div class="tooltip-mv">
+                                                <button id="btn_texture16" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 16</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture17" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 17</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture18" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 18</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture19" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 19</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture20" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 20</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture21" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 21</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture22" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 22</span>
+                                            </div>
+                                            <div class="tooltip-mv">
+                                                <button id="btn_texture23" class="texture"></button>
+                                                <span class="tooltip-mvtext">TEXTURA 23</span>
+                                            </div> -->
                                         </div>
                                         <div id="filterColor_350271833" data-cerberus="dropdown_pdp_colors1"
                                             data-label="Escolha uma cor" style="display: none">

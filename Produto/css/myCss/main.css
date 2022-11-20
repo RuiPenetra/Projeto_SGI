@@ -1,0 +1,152 @@
+.fa-check-circle:focus{
+  color: green;
+  position: relative;
+  width: 500px;
+  
+}
+
+.tip_material{
+  width: 170px;
+  margin-bottom: 20px;
+  background-color: rgb(242, 245, 248);
+  border-radius: 10px;
+  text-align: start;
+  border: none;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* #img_tex_1{
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    content:url("./../../src/texture/Wood028_2K_Color.png");
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    border-color: grey;
+    border-radius: 30px;
+}
+
+#img_tex_2{
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  content:url("./../../src/texture/WoodFloor051_2K_Color.jpg");
+  background-repeat: no-repeat;
+  background-size: auto auto;
+  border-color: grey;
+  border-radius: 30px;
+} */
+
+.nome_material{
+  color: black;
+}
+
+.texture{
+  width: 50px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-size: auto auto;
+  outline: 4px;
+  border-color: grey;
+  border-radius: 30px;
+}
+
+
+
+.tooltip-mv {
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    color:transparent;
+    list-style-type: none;
+
+  }
+  
+
+  .tooltip-mv  .tooltip-mvtext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+  .tooltip-mv:hover .tooltip-mvtext {
+    visibility: visible;
+  }
+
+
+
+  .btn_texture:focus{
+    background-color:red;
+    outline:none;
+  }
+
+  .ico_textura{
+    width: 50px;
+    height: 50px;
+
+
+  }
+
+
+
+
+  
+.btn_tipo_material{
+  width: 90px;
+  font-weight: 700;
+  padding: 10px;
+  margin-left: 20px;
+}
+
+.btn_tipo_material:focus{
+  background-color: black ;
+  border-radius: 20px;
+  color: #fff;
+
+}
+
+
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
+
+
+#list_mat_madeira{
+  /* margin-top: 20px; */
+  display: none;
+}
+
+#list_mat_metal{
+  display: none;
+}
+
+/* #modal-bodys{
+  position: relative;
+  width: 200px;
+  height: 500px;
+  margin: 0px;
+  transform: translate(-50%,-50%);
+
+  background-color: seashell;
+}
+
+
+.active-modal{
+  display: block !important;
+} */
+
+
