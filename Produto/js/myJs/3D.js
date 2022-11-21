@@ -1,34 +1,53 @@
 
 let material1,materia2,material3;
-let tex_port_madeira
+let tex_port_madeira,tex_port_madeira2
 var scene = new THREE.Scene()
+var sceneDesc = new THREE.Scene()
 var loader = new THREE.TextureLoader()
+let loaderObj1 = new THREE.GLTFLoader()
+let loaderObj2 = new THREE.GLTFLoader()
 let doorLeft;
 let mouse = new THREE.Vector2()
 var camera = new THREE.PerspectiveCamera( 60, 700/ 600,1, 1000 );
+var camera2 = new THREE.PerspectiveCamera( 60, 700/ 600,1, 1000 );
 let raycaster = new THREE.Raycaster()
-var meuCanvas = document.getElementById('meuCanvas')
+let meuCanvas = document.getElementById('meuCanvas')
+let canvasDesc = document.getElementById('canvasDesc')
+
 var renderer = new THREE.WebGLRenderer({canvas: meuCanvas})
+
+var renderer2 = new THREE.WebGLRenderer({canvas: canvasDesc})
+
+
 renderer.setSize(700,500)
+renderer2.setSize(700,500)
+
+
 var controls = new THREE.OrbitControls(camera, renderer.domElement )
+var controls2 = new THREE.OrbitControls(camera2, renderer2.domElement )
 
 let MEDIDAS=[]
-let model
+let MEDIDASDesc=[]
+let model1,model2
 let enableMedidas=false;
 
-let grid = new THREE.GridHelper()
-let axes = new THREE.AxesHelper(10)
+//let grid = new THREE.GridHelper()
+//let axes = new THREE.AxesHelper(10)
 scene.background = new THREE.Color('white')
-scene.add(axes)
-scene.add(grid)
+sceneDesc.background = new THREE.Color('white')
+//scene.add(axes)
+//scene.add(grid)
 
 renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.toneMappingExposure = 4; 
+
 //renderer.setSize(300, window.innerHeight ); 
 //renderer.setClearColor('white')
 renderer.shadowMap.enabled = true
 //document.body.appendChild( renderer.domElement )
-
+renderer2.toneMapping = THREE.ReinhardToneMapping;
+renderer2.toneMappingExposure = 4; 
+renderer2.shadowMap.enabled = true
 
 
 //document.body.appendChild( renderer.domElement ); 
@@ -39,6 +58,11 @@ camera.lookAt(0,2,0)
 //camera.position.set( 4, 5, 20)
 //camera.lookAt( 0, 0, 0)
 
+camera2.position.x = -7
+camera2.position.y = 8
+camera2.position.z = 15
+camera2.lookAt(0,2,0)
+
 //LIMITA A VISIBILIDADE INFERIOR
 controls.maxPolarAngle = Math.PI/3
 //LIMITA A VISIBILIDADE SUPERIOR
@@ -46,18 +70,25 @@ controls.minPolarAngle = Math.PI/3
 //DESABILITAR ZOOM
 controls.enableZoom= false;
 
+controls2.enabled= false;
+
 
  //set light
-var luz = new THREE.PointLight( "white" )
+let luz = new THREE.PointLight( "white" )
+let luzDesc = new THREE.PointLight( "white" )
 //luz.position.set( 5, 6, 0 )
 luz.position.set( 2, 6, 7)
 luz.castShadow = true
 scene.add(luz)  
 
+luzDesc.position.set( 2, 6, 7)
+luzDesc.castShadow = true
+sceneDesc.add(luzDesc)  
+
 
 //load 3d file
-new THREE.GLTFLoader().load(
- '../ficheiro_gltf/TV_newV2.gltf', 
+loaderObj1.load(
+ './ficheiro_gltf/TV_newV2.gltf', 
  function ( gltf ) { 
     scene.add( gltf.scene )
     scene.traverse(function (x){
@@ -67,31 +98,24 @@ new THREE.GLTFLoader().load(
         }
 
         //CARREGAR SEM MEDIDAS index[0]--->index[7]
-        //if(!enableMedidas){
-        if(model==null){
-            model = x.children[6]
-            console.log(model.children[10].children[0])
-            
-            tex_port_madeira = model.children[10]
-            console.log(model.children[10])
+        if(model1==null){
+            model1 = x.children[3]            
+            tex_port_madeira = model1.children[10]
         }
         
         
-        if(!enableMedidas){
-            setMedidas(model)
+        //if(!enableMedidas){
+            setMedidas(model1)
             //setMedidas(x.children[6])
             hideMedidas()
-        }
-
         //}
-
-       
+   
    /*  
         if (x.name.includes("doorLeft")) {
             console.log(x)
                doorLeft= x.parent.children[2]
 
-               //model1=x
+               //model12=x
               
                material1 = x.children[0].material
                material2 = x.children[1].material
@@ -102,12 +126,80 @@ new THREE.GLTFLoader().load(
         //    console.log(x.children[6])
         
 
-        //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/models/textures/Wood028_2K_Color.png')
-        //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/models/textures/Wicker001_1K_Color.png')
+        //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/model1s/textures/Wood028_2K_Color.png')
+        //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/model1s/textures/Wicker001_1K_Color.png')
     })
- }
-)
 
+      /*   if (x.name.includes("doorLeft")) {
+            console.log(x)
+               doorLeft= x.parent.children[2]
+
+               //model12=x
+              
+               material1 = x.children[0].material
+               material2 = x.children[1].material
+               material3 = x.children[2].material
+   
+           }  */
+ })
+
+loaderObj2.load(
+'./ficheiro_gltf/TV_newV2.gltf', 
+function ( gltf2 ) { 
+    //scene.add( gltf.scene )
+    sceneDesc.add(gltf2.scene)
+    sceneDesc.traverse(function (y){
+        if(y.isMesh){
+            y.castShadow = true
+            y.receiveShadow = true
+        }
+
+        //CARREGAR SEM MEDIDAS index[0]--->index[7]
+        if(model2==null){
+            model2 = y.children[3]
+            tex_port_madeira2 = model2.children[10]
+        } 
+       
+        
+        
+        //if(!enableMedidas){
+            //setMedidas(model12)
+            //setMedidas(x.children[6])
+            //hideMedidas()
+        //}
+    
+    /*  
+        if (x.name.includes("doorLeft")) {
+            console.log(x)
+                doorLeft= x.parent.children[2]
+
+                //model12=x
+                
+                material1 = x.children[0].material
+                material2 = x.children[1].material
+                material3 = x.children[2].material
+    
+            } */
+        //    console.log("------------------")
+        //    console.log(x.children[6])
+        
+
+        //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/model1s/textures/Wood028_2K_Color.png')
+        //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/model1s/textures/Wicker001_1K_Color.png')
+    })
+
+        /*   if (x.name.includes("doorLeft")) {
+            console.log(x)
+                doorLeft= x.parent.children[2]
+
+                //model12=x
+                
+                material1 = x.children[0].material
+                material2 = x.children[1].material
+                material3 = x.children[2].material
+    
+            }  */
+})
 
 
 //update/render loop
@@ -118,18 +210,28 @@ function animar() {
     requestAnimationFrame( animar )
 
     camera.lookAt(0,2,0)
+    camera2.lookAt(0,2,0)
     renderer.render( scene, camera )
+    renderer2.render( sceneDesc, camera2 )
 }
 
 function addLights(){
-    const lightAmb = new THREE.AmbientLight( 0xffffff, 0.5); 
+    let lightAmb = new THREE.AmbientLight( 0xffffff, 0.5); 
+    let lightAmb1 = new THREE.AmbientLight( 0xffffff, 0.5); 
     scene.add( lightAmb );
+    sceneDesc.add( lightAmb1 );
 
-    const lightDir = new THREE.DirectionalLight( 0xE5E5DA, 1 );
+    let lightDir = new THREE.DirectionalLight( 0xE5E5DA, 1 );
+    let lightDir1 = new THREE.DirectionalLight( 0xE5E5DA, 1 );
     lightDir.position.set(2,8,10)
-    const dlHelper = new THREE.DirectionalLightHelper(lightDir, 1, 0xFF0000);
-    scene.add(dlHelper);
+    lightDir1.position.set(2,8,10)
+
+    let dlHelper,dlHelper1 = new THREE.DirectionalLightHelper(lightDir, 1, 0xFF0000);
+    //scene.add(dlHelper);
     scene.add( lightDir );
+    sceneDesc.add( lightDir1 );
+
+    
 }
 
 /* 
@@ -137,27 +239,27 @@ document.getElementById('btn_texture').onclick = function(){
    //console.log("ola") 
     //delete alvo.material.format
 
-    alvo.material.map = loader.load('./projeto_scene-exemplo_2022/models/textures/Wood028_2K_Color.png') 
+    alvo.material.map = loader.load('./projeto_scene-exemplo_2022/model1s/textures/Wood028_2K_Color.png') 
 }
 
 document.getElementById('btn_texture1').onclick = function(){
      //delete alvo.material.format
  
-     alvo.material.map = loader.load('./projeto_scene-exemplo_2022/models/textures/WoodFloor051_2K_Color.jpg') 
+     alvo.material.map = loader.load('./projeto_scene-exemplo_2022/model1s/textures/WoodFloor051_2K_Color.jpg') 
 
  }
 
  document.getElementById('btn_texture2').onclick = function(){
      //delete alvo.material.format
  
-     alvo.material.map = loader.load('./projeto_scene-exemplo_2022/models/textures/WoodFloor051_2K_Roughness.jpg') 
+     alvo.material.map = loader.load('./projeto_scene-exemplo_2022/model1s/textures/WoodFloor051_2K_Roughness.jpg') 
 
  }
 
  document.getElementById('btn_texture3').onclick = function(){
      //delete alvo.material.format
  
-     alvo.material.map = loader.load('./projeto_scene-exemplo_2022/models/textures/WoodFloor051_2K_Displacement.jpg') 
+     alvo.material.map = loader.load('./projeto_scene-exemplo_2022/model1s/textures/WoodFloor051_2K_Displacement.jpg') 
 
  }
  */
@@ -167,8 +269,9 @@ document.getElementById('btn_texture1').onclick = function(){
     console.log(obj)
     for(let i=0;i<8;i++){
         MEDIDAS[i]=obj.children[i]
+        MEDIDASDesc[i]=obj.children[i]
     }
-    enableMedidas=1
+    //enableMedidas=1
    
 }
 
@@ -196,14 +299,13 @@ function showMedidas(obj){
 
     
 }
-console.log(model)
 
-document.getElementById("crItem_Med_ext").addEventListener("focus",function(){
+document.getElementById("crItem_Vist_scale").addEventListener("click",function(){
     //console.log("ola00000")
     showMedidas()
 })
 
-document.getElementById("crItem_Vist_normal").addEventListener("focus",function(){
+document.getElementById("crItem_Vist_normal").addEventListener("click",function(){
   
     hideMedidas()
     camera.position.x = -7
@@ -249,28 +351,28 @@ let btn_texture22 = document.getElementById("btn_texture22")
 let btn_texture23 = document.getElementById("btn_texture23") */
 
 //METAL
-let tex_madeira0 = './../../src/texture/madeira/text_0.png'
-let tex_madeira1 = './../../src/texture/madeira/text_1.jpg'
-let tex_madeira2 = './../../src/texture/madeira/text_2.png'
-let tex_madeira3 = './../../src/texture/madeira/text_3.png'
-let tex_madeira4 = './../../src/texture/madeira/text_4.png'
-let tex_madeira5 = './../../src/texture/madeira/text_5.png'
-let tex_madeira6 = './../../src/texture/madeira/text_6.png' 
-let tex_madeira7 = './../../src/texture/madeira/text_7.png'
-let tex_madeira8 = './../../src/texture/madeira/text_8.png'
-let tex_madeira9 = './../../src/texture/madeira/text_9.png'
-let tex_madeira10 = './../../src/texture/madeira/text_10.png' 
-let tex_madeira11 = './../../src/texture/madeira/text_10.png' 
+let tex_madeira0 = './src/texture/madeira/text_0.png'
+let tex_madeira1 = './src/texture/madeira/text_1.jpg'
+let tex_madeira2 = './src/texture/madeira/text_2.png'
+let tex_madeira3 = './src/texture/madeira/text_3.png'
+let tex_madeira4 = './src/texture/madeira/text_4.png'
+let tex_madeira5 = './src/texture/madeira/text_5.png'
+let tex_madeira6 = './src/texture/madeira/text_6.png' 
+let tex_madeira7 = './src/texture/madeira/text_7.png'
+let tex_madeira8 = './src/texture/madeira/text_8.png'
+let tex_madeira9 = './src/texture/madeira/text_9.png'
+let tex_madeira10 = './src/texture/madeira/text_10.png' 
+let tex_madeira11 = './src/texture/madeira/text_10.png' 
 
 // let tex_port_madeira = './../../src/texture/madeira/text_porta.png'
 
 
-let tex_metal1 = './../../src/texture/metal/Metal009_4K_Color.png'
-let tex_metal2 = './../../src/texture/metal/Metal010_4K_Color.png'
-let tex_metal3 = './../../src/texture/metal/Metal029_4K_Color.png'
-let tex_metal4 = './../../src/texture/metal/Metal012_4K_Color.png'
+let tex_metal1 = './src/texture/metal/Metal009_4K_Color.png'
+let tex_metal2 = './src/texture/metal/Metal010_4K_Color.png'
+let tex_metal3 = './src/texture/metal/Metal029_4K_Color.png'
+let tex_metal4 = './src/texture/metal/Metal012_4K_Color.png'
 
-let tex_port_metal = './../../src/texture/metal/MetalWalkway003_4K_Color.png'
+let tex_port_metal = './src/texture/metal/MetalWalkway003_4K_Color.png'
 /* let tex_metal5 = './../../src/texture/metal/Metal036_4K_Color.png'
 let tex_metal6 = './../../src/texture/metal/Metal038_4K_Color.png' */
 /* let tex_metal7 = './../../src/texture/metal/MetalWalkway011_4K_Color.png'
@@ -312,106 +414,153 @@ btn_texture23.style.backgroundImage = "url(" + tex_metal12 + ")" */
 
 
 btn_texture0.addEventListener('click',function(){
-    console.log(model.children[8])
-    model.children[8].material.map = loader.load(tex_madeira0) 
-   // model.children[9].children[1].material.map = loader.load(tex_madeira0) 
-    model.children[10].material.map = tex_port_madeira
+    console.log(model1.children[8])
+    model1.children[8].material.map = loader.load(tex_madeira0) 
+   // model1.children[9].children[1].material.map = loader.load(tex_madeira0) 
+    model1.children[10].material.map = tex_port_madeira
 
+    model2.children[8].material.map = loader.load(tex_madeira0) 
+    model2.children[10].material.map = tex_port_madeira2
 })
 
  btn_texture1.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira1) 
-   // model.children[9].children[0].material.map = loader.load(tex_madeira1) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira1) 
+   // model1.children[9].children[0].material.map = loader.load(tex_madeira1) 
+    model1.children[10]=tex_port_madeira
+
+    
+    model2.children[8].material.map = loader.load(tex_madeira1) 
+    model2.children[10].material.map = tex_port_madeira2
 
 })
 
 btn_texture2.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira2) 
-    //model.children[9].children[0].material.map = loader.load(tex_madeira2) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira2) 
+    //model1.children[9].children[0].material.map = loader.load(tex_madeira2) 
+    model1.children[10]=tex_port_madeira
+
+    model2.children[8].material.map = loader.load(tex_madeira2) 
+    model2.children[10].material.map = tex_port_madeira2
 }) 
 
 btn_texture3.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira3) 
-    //model.children[9].material.map = loader.load(tex_madeira3) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira3) 
+    //model1.children[9].material.map = loader.load(tex_madeira3) 
+    model1.children[10]=tex_port_madeira
+
+    model2.children[8].material.map = loader.load(tex_madeira3) 
+    model2.children[10].material.map = tex_port_madeira2
 }) 
 
 btn_texture4.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira4)
-    //model.children[9].material.map = loader.load(tex_madeira4) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira4)
+    //model1.children[9].material.map = loader.load(tex_madeira4) 
+    model1.children[10]=tex_port_madeira
+
+    model2.children[8].material.map = loader.load(tex_madeira4) 
+    model2.children[10].material.map = tex_port_madeira2
 })
 
 btn_texture5.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira5)
-    //model.children[9].material.map = loader.load(tex_madeira5) 
-    model.children[10]=tex_port_madeira 
+    model1.children[8].material.map = loader.load(tex_madeira5)
+    //model1.children[9].material.map = loader.load(tex_madeira5) 
+    model1.children[10]=tex_port_madeira 
+
+    model2.children[8].material.map = loader.load(tex_madeira5) 
+    model2.children[10].material.map = tex_port_madeira2
   
 })
 
 btn_texture6.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira6) 
-    //model.children[9].material.map = loader.load(tex_madeira6) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira6) 
+    //model1.children[9].material.map = loader.load(tex_madeira6) 
+    model1.children[10]=tex_port_madeira
+
+    model2.children[8].material.map = loader.load(tex_madeira6) 
+    model2.children[10].material.map = tex_port_madeira2
 })
 
 btn_texture7.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira7) 
-   // model.children[9].material.map = loader.load(tex_madeira7) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira7) 
+   // model1.children[9].material.map = loader.load(tex_madeira7) 
+    model1.children[10]=tex_port_madeira
+
+    model2.children[8].material.map = loader.load(tex_madeira7) 
+    model2.children[10].material.map = tex_port_madeira2
 })
 
 btn_texture8.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira8) 
-    //model.children[9].material.map = loader.load(tex_madeira8) 
-    model.children[10]=tex_port_madeira
+    model1.children[8].material.map = loader.load(tex_madeira8) 
+    //model1.children[9].material.map = loader.load(tex_madeira8) 
+    model1.children[10]=tex_port_madeira
+
+    model2.children[8].material.map = loader.load(tex_madeira8) 
+    model2.children[10].material.map = tex_port_madeira2
 }) 
 
 btn_texture9.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira9) 
+    model1.children[8].material.map = loader.load(tex_madeira9) 
     //.children[9].material.map = loader.load(tex_madeira9) 
-    model.children[10]=tex_port_madeira 
+    model1.children[10]=tex_port_madeira 
+
+    model2.children[8].material.map = loader.load(tex_madeira9) 
+    model2.children[10].material.map = tex_port_madeira2
 
 })
 
 btn_texture10.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira10)
-    //model.children[9].material.map = loader.load(tex_madeira10) 
-    model.children[10]=tex_port_madeira 
+    model1.children[8].material.map = loader.load(tex_madeira10)
+    //model1.children[9].material.map = loader.load(tex_madeira10) 
+    model1.children[10]=tex_port_madeira 
+
+    model2.children[8].material.map = loader.load(tex_madeira10) 
+    model2.children[10].material.map = tex_port_madeira2
 }) 
 
 btn_texture11.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_madeira11)
-    //model.children[9].material.map = loader.load(tex_madeira11) 
-    model.children[10]=tex_port_madeira 
+    model1.children[8].material.map = loader.load(tex_madeira11)
+    //model1.children[9].material.map = loader.load(tex_madeira11) 
+    model1.children[10]=tex_port_madeira 
+
+    model2.children[8].material.map = loader.load(tex_madeira11) 
+    model2.children[10].material.map = tex_port_madeira2
 }) 
 
 
 btn_texture12.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal1)
-    //model.children[9].material.map = loader.load(tex_metal1) 
-    model.children[10].children[0].material.map = loader.load(tex_port_metal)
+    model1.children[8].material.map = loader.load(tex_metal1)
+    //model1.children[9].material.map = loader.load(tex_metal1) 
+    model1.children[10].children[0].material.map = loader.load(tex_port_metal)
+
+    model2.children[8].material.map = loader.load(tex_metal1) 
+    model2.children[10].material.map = loader.load(tex_port_metal)
 })
 
 btn_texture13.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal2) 
-    //model.children[9].material.map = loader.load(tex_metal2) 
-    model.children[10].children[0].material.map = loader.load(tex_port_metal)
+    model1.children[8].material.map = loader.load(tex_metal2) 
+    //model1.children[9].material.map = loader.load(tex_metal2) 
+    model1.children[10].children[0].material.map = loader.load(tex_port_metal)
+
+    model2.children[8].material.map = loader.load(tex_metal2) 
+    model2.children[10].material.map = loader.load(tex_port_metal)
 }) 
 
  btn_texture14.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal3)  
-    //model.children[9].material.map = loader.load(tex_metal3) 
-    model.children[10].children[0].material.map = loader.load(tex_port_metal)
+    model1.children[8].material.map = loader.load(tex_metal3)  
+    //model1.children[9].material.map = loader.load(tex_metal3) 
+    model1.children[10].children[0].material.map = loader.load(tex_port_metal)
 
+    model2.children[8].material.map = loader.load(tex_metal3) 
+    model2.children[10].material.map = loader.load(tex_port_metal)
 })
 
 btn_texture15.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal4) 
-   // model.children[9].material.map = loader.load(tex_metal4) 
-    model.children[10].material.map = loader.load(tex_port_metal)
+    model1.children[8].material.map = loader.load(tex_metal4) 
+   // model1.children[9].material.map = loader.load(tex_metal4) 
+    model1.children[10].material.map = loader.load(tex_port_metal)
+
+    model2.children[8].material.map = loader.load(tex_metal4) 
+    model2.children[10].material.map = loader.load(tex_port_metal)
 
 }) 
 
@@ -420,58 +569,58 @@ btn_texture15.addEventListener('click',function(){
 
 /* 
 btn_texture16.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal5) 
-    model.children[8].material.map = loader.load(tex_metal5) 
+    model1.children[8].material.map = loader.load(tex_metal5) 
+    model1.children[8].material.map = loader.load(tex_metal5) 
 
 })
 
 btn_texture17.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal6) 
-    model.children[8].material.map = loader.load(tex_metal6) 
+    model1.children[8].material.map = loader.load(tex_metal6) 
+    model1.children[8].material.map = loader.load(tex_metal6) 
 
 })
 
 btn_texture18.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal7) 
-    model.children[8].material.map = loader.load(tex_metal7) 
+    model1.children[8].material.map = loader.load(tex_metal7) 
+    model1.children[8].material.map = loader.load(tex_metal7) 
 
 })
 
 btn_texture19.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal8) 
-    model.children[8].material.map = loader.load(tex_metal8) 
+    model1.children[8].material.map = loader.load(tex_metal8) 
+    model1.children[8].material.map = loader.load(tex_metal8) 
 
 })
 
 btn_texture20.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal9) 
-    model.children[8].material.map = loader.load(tex_metal9) 
+    model1.children[8].material.map = loader.load(tex_metal9) 
+    model1.children[8].material.map = loader.load(tex_metal9) 
 
 })
 
 btn_texture21.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal10) 
-    model.children[8].material.map = loader.load(tex_metal10) 
+    model1.children[8].material.map = loader.load(tex_metal10) 
+    model1.children[8].material.map = loader.load(tex_metal10) 
 
 })
 
 btn_texture22.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal11) 
-    model.children[8].material.map = loader.load(tex_metal11) 
+    model1.children[8].material.map = loader.load(tex_metal11) 
+    model1.children[8].material.map = loader.load(tex_metal11) 
 
 })
 
 btn_texture23.addEventListener('click',function(){
-    model.children[8].material.map = loader.load(tex_metal12) 
-    model.children[8].material.map = loader.load(tex_metal12) 
+    model1.children[8].material.map = loader.load(tex_metal12) 
+    model1.children[8].material.map = loader.load(tex_metal12) 
 
 }) */ 
    
 /* function resetMaterials(){
 
-    model.children[0].material = material1
-    model.children[1].material = material2
-    model.children[2].material = material3
+    model1.children[0].material = material1
+    model1.children[1].material = material2
+    model1.children[2].material = material3
     
     
 }
@@ -482,27 +631,27 @@ function onPointerDown(event){
     mouse.y = -(event.clientY / window.innerHeight)* 2 + 1
 
     raycaster.setFromCamera(mouse, camera)
-    let intersects = raycaster.intersectmodels(model.children,true)
+    let intersects = raycaster.intersectmodel1s(model1.children,true)
 
-    console.log(model.children)
+    console.log(model1.children)
     console.log(intersects)
 
     if(intersects.length>0){
 
-        if(intersects[0].model.parent.name=="doorLeft"){
+        if(intersects[0].model1.parent.name=="doorLeft"){
             console.log("intersects")
-            //console.log(intersects[0].model.parent.children.length)
+            //console.log(intersects[0].model1.parent.children.length)
             
-            tamanho= intersects[0].model.parent.children.length
-            //console.log( intersects[0].model.parent.children)
-            model1 = intersects[0].model.parent.children
+            tamanho= intersects[0].model1.parent.children.length
+            //console.log( intersects[0].model1.parent.children)
+            model12 = intersects[0].model1.parent.children
 
-            console.log(model1[1])
+            console.log(model12[1])
             for(let i =0; i < tamanho; i++){
                 
                 console.log(intersects[i])
-                model1[i].material= new THREE.MeshStandardMaterial({color:"yellow"})
-                //model1[i].model.material = new THREE.Color("red")
+                model12[i].material= new THREE.MeshStandardMaterial({color:"yellow"})
+                //model12[i].model1.material = new THREE.Color("red")
 
             }
         }
