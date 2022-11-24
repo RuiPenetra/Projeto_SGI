@@ -286,9 +286,9 @@ function hideMedidas(obj){
 function showMedidas(obj){
     for(let i=0;i<8;i++){
        // console.log("ola")
-            //console.log(MEDIDAS[i] = x[i].visible=false
-            MEDIDAS[i].visible= true
-            MEDIDAS[i].material.color= new THREE.Color("red")
+        //console.log(MEDIDAS[i] = x[i].visible=false
+        MEDIDAS[i].visible= true
+        MEDIDAS[i].material.color= new THREE.Color("red")
     }
     camera.position.x = -7
     camera.position.y = 8
@@ -300,8 +300,27 @@ function showMedidas(obj){
     
 }
 
+/*
+----------------------------------------------------------------------------------------------------------------------------
+TIPOS DE VISTA
+----------------------------------------------------------------------------------------------------------------------------
+*/
+
+document.getElementById("crItem_Vist_port").addEventListener("click",function(){
+    
+   //TO DO
+})
+
+
+document.getElementById("crItem_Vist_gav").addEventListener("click",function(){
+    
+    //TO DO
+
+ })
+ 
+
 document.getElementById("crItem_Vist_scale").addEventListener("click",function(){
-    //console.log("ola00000")
+    
     showMedidas()
 })
 
@@ -319,8 +338,6 @@ document.getElementById("crItem_Vist_normal").addEventListener("click",function(
 ----------------------------------------------------------------------------------------------------------------------------
 TEXTURAS
 ----------------------------------------------------------------------------------------------------------------------------
-
-
 */
 //MADEIRA
 let btn_texture0 = document.getElementById("btn_texture0")
