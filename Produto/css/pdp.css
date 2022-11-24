@@ -615,11 +615,15 @@
     position: relative;
     text-align: center;
     padding: 0 25px;
-    width: 100%
+    width: 100%;
+    margin-bottom: 10px;
+    
 }
 
 .thumbnails_container .lSSlideOuter.vertical {
-    margin-top: 32px
+    margin-top: 32px;
+   
+   
 }
 
 .thumbnails_leftArrow,
@@ -641,7 +645,8 @@
 
 .thumbnails_carousel {
     white-space: inherit;
-    padding-top: 1px
+    padding-top: 1px;
+    margin-bottom: 20px;
 }
 
 @media(min-width:768px) {
@@ -725,6 +730,7 @@
 
 .thumbnails_carousel .media_icon .lr-icon::before {
     margin-top: 4px
+    
 }
 
 .thumbnails_carousel .media_icon .media_type {
@@ -735,7 +741,8 @@
     font-size: 12px;
     padding: 0 4px;
     border-bottom-left-radius: 4px;
-    border-top-right-radius: 4px
+    border-top-right-radius: 4px;
+    
 }
 
 .thumbnails_carousel .media_icon:hover .media_type {
@@ -759,7 +766,8 @@
     .thumbnails_container {
         height: 200px;
         margin: 0;
-        padding: 25px 0
+        padding: 20px 0;
+      
     }
 
     .thumbnails_container .item+.item {

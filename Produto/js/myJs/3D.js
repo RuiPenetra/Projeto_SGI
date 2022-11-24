@@ -265,8 +265,8 @@ document.getElementById('btn_texture1').onclick = function(){
  */
 
  function setMedidas(obj){
-    console.log("-----------")
-    console.log(obj)
+    //console.log("-----------")
+    //console.log(obj)
     for(let i=0;i<8;i++){
         MEDIDAS[i]=obj.children[i]
         MEDIDASDesc[i]=obj.children[i]
@@ -285,7 +285,7 @@ function hideMedidas(obj){
 
 function showMedidas(obj){
     for(let i=0;i<8;i++){
-        console.log("ola")
+       // console.log("ola")
             //console.log(MEDIDAS[i] = x[i].visible=false
             MEDIDAS[i].visible= true
             MEDIDAS[i].material.color= new THREE.Color("red")
@@ -414,7 +414,7 @@ btn_texture23.style.backgroundImage = "url(" + tex_metal12 + ")" */
 
 
 btn_texture0.addEventListener('click',function(){
-    console.log(model1.children[8])
+    //console.log(model1.children[8])
     model1.children[8].material.map = loader.load(tex_madeira0) 
    // model1.children[9].children[1].material.map = loader.load(tex_madeira0) 
     model1.children[10].material.map = tex_port_madeira
