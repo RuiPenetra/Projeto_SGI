@@ -1,13 +1,14 @@
 
-let list_mat_madeira = document.getElementById('list_mat_madeira');
-let list_mat_metal = document.getElementById('list_mat_metal');
+let list_MD = document.getElementById('list_mat_madeira');
+let list_MT = document.getElementById('list_mat_metal');
 
 
 let focus=0
 let btn_tip_mad = document.getElementById("btn_tipo_madeira")
 let btn_tip_met = document.getElementById("btn_tipo_metal")
 
-
+let items_mat = document.getElementsByClassName("item_mat")
+let current
 
 let helper_img = [ 
     "./src/view_3d.png",
@@ -27,9 +28,12 @@ btn_tip_mad.addEventListener("click",function(){
  
     btn_tip_met.classList.remove("type-active")
     btn_tip_mad.classList.add("type-active")
-    list_mat_metal.style.display = 'none';
-    list_mat_madeira.style.display = 'block';
+    current = document.getElementById("item_check")
+    list_MT.style.display = 'none';
+    list_MD.style.display = 'flex';
     focus =0
+    
+    console.log(list_MD)
 
 })
 
@@ -37,14 +41,13 @@ btn_tip_met.addEventListener("click",function(){
  
     btn_tip_mad.classList.remove("type-active")
     btn_tip_met.classList.add("type-active")
-    list_mat_madeira.style.display = 'none';
-    list_mat_metal.style.display = 'block';
+    current = document.getElementById("item_check")
+    list_MD.style.display = 'none';
+    list_MT.style.display = 'flex';
     focus = 1
+    
+    console.log(list_MT)
 })
-
-
-let item_mat = document.getElementsByClassName("item_mat")
-
 
 let hp_content = document.getElementById("helper_content")
 let hp_title = document.getElementById("helper_title")
@@ -56,9 +59,7 @@ console.log(hp_content)
 hp_content.textContent=helper_info[0]
 hp_title.textContent="Vista Normal"
 
-let list_MT = document.getElementById("list_mat_metal")
-let list_MD = document.getElementById("list_mat_madeira")
-let items_mat = list_MD.getElementsByClassName("item_mat")
+
 
 //ITEM_MAT ACTIVE
 /* for(let i =0; i< items_mat.length; i++){
@@ -72,10 +73,10 @@ let items_mat = list_MD.getElementsByClassName("item_mat")
 }  */
 
 for(let i =0; i< items_mat.length; i++){
-    items_mat[i].addEventListener("click",function(){
-        let current = document.getElementById("item_check")
-        console.log(current)
-        item_mat[i].appendChild(current)
+    items_mat[i].addEventListener("click",function(){     
+        current = document.getElementById("item_check")   
+        items_mat[i].appendChild(current)
+        console.log(items_mat[i])
         //current.remove()
          //if(current.length > 0){
         //current[0].className = current[0].className.replace("item-active","")
