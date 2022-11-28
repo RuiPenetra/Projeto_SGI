@@ -30,6 +30,8 @@ let MEDIDAS=[]
 let MEDIDASDesc=[]
 let model1,model2
 let enableMedidas=false;
+let ANIM_GAVETA = 0
+let ANIM_PORTA = 0
 
 //let grid = new THREE.GridHelper()
 //let axes = new THREE.AxesHelper(10)
@@ -78,11 +80,11 @@ let luz = new THREE.PointLight( "white" )
 let luzDesc = new THREE.PointLight( "white" )
 //luz.position.set( 5, 6, 0 )
 luz.position.set( 2, 6, 7)
-luz.castShadow = true
+//luz.castShadow = true
 scene.add(luz)  
 
 luzDesc.position.set( 2, 6, 7)
-luzDesc.castShadow = true
+//luzDesc.castShadow = true
 sceneDesc.add(luzDesc)  
 
 
@@ -93,20 +95,20 @@ ANIMAÇÕES
 */
 let relogio = new THREE.Clock(scene)
 let misturador = new THREE.AnimationMixer(scene)
-let acao1
+let acao1,acao2,acao3
 
 
 /*---------------------------------------------*/
 //load 3d file
 loaderObj1.load(
- './ficheiro_gltf/TV_vewV2.gltf', 
+ './ficheiro_gltf/TV_vewV4.gltf', 
  function ( gltf ) { 
     scene.add( gltf.scene )
 
     scene.traverse(function (x){
         if(x.isMesh){
-            x.castShadow = true
-            x.receiveShadow = true
+           // x.castShadow = true
+            //x.receiveShadow = true
         }
 
         //CARREGAR SEM MEDIDAS index[0]--->index[7]
@@ -142,8 +144,12 @@ loaderObj1.load(
         //x.material.map = new THREE.TextureLoader('./projeto_scene-exemplo_2022/model1s/textures/Wicker001_1K_Color.png')
     })
 
-    clipe = THREE.AnimationClip.findByName( gltf.animations, 'Armature.001Action.002' )
-    acao1 = misturador.clipAction( clipe )
+    clip1 = THREE.AnimationClip.findByName( gltf.animations, 'doorRightAction')
+    clip2 = THREE.AnimationClip.findByName( gltf.animations, 'doorLeftAction.001' )
+    clip3 = THREE.AnimationClip.findByName( gltf.animations, 'drawerUp' ) 
+    acao1 = misturador.clipAction( clip1)
+    acao2 = misturador.clipAction( clip2 )
+    acao3 = misturador.clipAction( clip3)
 
   /*   clipe = THREE.AnimationClip.findByName( gltf.animations, 'RotZ' )
     acao2 = misturador.clipAction( clipe ) */
@@ -162,14 +168,14 @@ loaderObj1.load(
  })
 
 loaderObj2.load(
-'./ficheiro_gltf/TV_newV2.gltf', 
+'./ficheiro_gltf/TV_vewV5.gltf', 
 function ( gltf2 ) { 
     //scene.add( gltf.scene )
     sceneDesc.add(gltf2.scene)
     sceneDesc.traverse(function (y){
         if(y.isMesh){
-            y.castShadow = true
-            y.receiveShadow = true
+            //y.castShadow = true
+            //y.receiveShadow = true
         }
 
         //CARREGAR SEM MEDIDAS index[0]--->index[7]
@@ -285,12 +291,13 @@ document.getElementById('btn_texture1').onclick = function(){
 
  function setMedidas(obj){
     //console.log("-----------")
-    //console.log(obj)
+    console.log(obj)
     for(let i=0;i<8;i++){
         MEDIDAS[i]=obj.children[i]
         MEDIDASDesc[i]=obj.children[i]
     }
     //enableMedidas=1
+    console.log(MEDIDAS)
    
 }
 
@@ -327,14 +334,51 @@ TIPOS DE VISTA
 
 document.getElementById("crItem_Vist_port").addEventListener("click",function(){
     
-   //TO DO
-   acao1.play()
+
+    acao1.play()
+    acao2.play()
+    // if(ANIM_PORTA == 1){
+    //     acao1.reset()
+    //     acao1.stop()
+    //     acao2.reset()
+    //     acao2.stop()
+
+    //     ANIM_PORTA = 0
+    // }
+    //TO DO
+
+
+    // acao3.setLoop(THREE.LoopOnce)
+    // acao3.play()
+    
+    // acao3.clampWhenFinished = true
+    acao1.setLoop(THREE.LoopOnce)
+    acao2.setLoop(THREE.LoopOnce)
+    acao1.timeScale = 0.5;
+    acao2.timeScale = 0.5;
+    acao1.clampWhenFinished = true
+    acao2.clampWhenFinished = true
+
+    camera.position.x = -1
+    camera.position.y = 8
+    camera.position.z = 15
+    // ANIM_GAVETA =1
+
 })
 
 
 document.getElementById("crItem_Vist_gav").addEventListener("click",function(){
     
-    //TO DO
+    hideMedidas()
+    camera.position.x = -7
+    camera.position.y = 8
+    camera.position.z = 15
+    controls.enabled= true;
+
+    acao1.reset()
+    acao2.reset()
+ 
+    acao3.reset()
 
  })
  
@@ -351,6 +395,11 @@ document.getElementById("crItem_Vist_normal").addEventListener("click",function(
     camera.position.y = 8
     camera.position.z = 15
     controls.enabled= true;
+
+    acao1.reset()
+    acao2.reset()
+ 
+    acao3.reset()
  
 })
 
@@ -398,53 +447,53 @@ btn_met_3.style.backgroundImage = "url(" + tex_metal3 + ")"
 
 btn_mad_1.addEventListener('click',function(){
     //console.log(model1.children[8])
-    model1.children[8].material.map = loader.load(tex_mad1) 
+    model1.children[10].material.map = loader.load(tex_mad1) 
    // model1.children[9].children[1].material.map = loader.load(tex_madeira0) 
-    model1.children[10].material = tex_port_madeira
+   // model1.children[10].material = tex_port_madeira
 
 
 })
 
 btn_mad_2.addEventListener('click',function(){
-    model1.children[8].material.map = loader.load(tex_mad2) 
+    model1.children[10].material.map = loader.load(tex_mad2) 
    // model1.children[9].children[0].material.map = loader.load(tex_madeira1) 
-    model1.children[10]=tex_port_madeira
+  //  model1.children[10]=tex_port_madeira
 
 })
 
 btn_mad_3.addEventListener('click',function(){
-    model1.children[8].material.map = loader.load(tex_mad3) 
+    model1.children[10].material.map = loader.load(tex_mad3) 
     //model1.children[9].material.map = loader.load(tex_madeira3) 
-    model1.children[10]=tex_port_madeira
+   // model1.children[10]=tex_port_madeira
 }) 
 
 btn_mad_4.addEventListener('click',function(){
-    model1.children[8].material.map = loader.load(tex_mad4)
+    model1.children[10].material.map = loader.load(tex_mad4)
     //model1.children[9].material.map = loader.load(tex_madeira5) 
     model1.children[10]=tex_port_madeira  
 })
 
 
 btn_met_1.addEventListener('click',function(){
-    model1.children[8].material.map = loader.load(tex_metal1)
+    model1.children[10].material.map = loader.load(tex_metal1)
     //model1.children[9].material.map = loader.load(tex_metal1) 
-    model1.children[10].children[0].material.map = loader.load(tex_port_metal)
+   // model1.children[10].children[0].material.map = loader.load(tex_port_metal)
 
 
 })
 
 btn_met_2.addEventListener('click',function(){
-    model1.children[8].material.map = loader.load(tex_metal2) 
+    model1.children[10].material.map = loader.load(tex_metal2) 
     //model1.children[9].material.map = loader.load(tex_metal2) 
-    model1.children[10].children[0].material.map = loader.load(tex_port_metal)
+   // model1.children[10].children[0].material.map = loader.load(tex_port_metal)
 
  
 }) 
 
 btn_met_3.addEventListener('click',function(){
-    model1.children[8].material.map = loader.load(tex_metal3)  
+    model1.children[10].material.map = loader.load(tex_metal3)  
     //model1.children[9].material.map = loader.load(tex_metal3) 
-    model1.children[10].children[0].material.map = loader.load(tex_port_metal)
+   // model1.children[10].children[0].material.map = loader.load(tex_port_metal)
 })
 
    
