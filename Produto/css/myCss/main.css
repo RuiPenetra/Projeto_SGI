@@ -293,8 +293,8 @@ header{
 }
 
 #meuCanvas:hover{
-  cursor: url('/Produto/src/icons8-blue-pointer-material-rounded-32.png'),auto; 
-  /* cursor: grab; */
+ /* cursor: url('/Produto/src/icons8-blue-pointer-material-rounded-32.png'),auto; */
+  cursor: grab; 
   
 
 
