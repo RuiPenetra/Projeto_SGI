@@ -1,11 +1,41 @@
-let objAnimated = []
+
+let RACK,DOOR_LEFT_IN,DOOR_LEFT_OUT,DOOR_RIGHT_IN,DOOR_RIGHT_OUT,DRAWER_UP,DRAWER_DOWN
+let RACK_DESC,DOOR_LEFT_IN_DESC,DOOR_LEFT_OUT_DESC,DOOR_RIGHT_IN_DESC,DOOR_RIGHT_OUT_DESC,DRAWER_UP_DESC,DRAWER_DOWN_DESC
+let scene = new THREE.Scene()
+let sceneDesc = new THREE.Scene()
+let loader = new THREE.TextureLoader()
+
+let loaderObj2 = new THREE.GLTFLoader()
+
 let objMedidas=[]
+let objMedidasDesc=[]
+let model1,model2
+let enableobjobjMedidas=false;
+let Vist_Normal_VAL=false;
 let ANIM_GAVETA = false
 let ANIM_PORTA = false
-let acao1,acao2,acao3
-let scene = new THREE.Scene()
-scene.background = new THREE.Color(0xE5E5DA)
 
+
+let acao1,acao2,acao3
+
+let mat_MAD_1,mat_MAD_2,mat_MAD_3,mat_MAD_4
+let mat_MET_1,mat_MET_2,mat_MET_3
+let mouseSelected
+let objAnimated 
+
+/*
+-----------------------------------------
+ANIMAÇÕES
+-----------------------------------------
+*/
+let relogio = new THREE.Clock(scene)
+let misturador = new THREE.AnimationMixer(scene)
+/*---------------------------------------------*/
+//load 3d file
+
+
+//const width = document.getElementById('productImages').offsetWidth //Largura
+//const height = document.getElementById('productImages').offsetHeight //Altura
 
 //fov, aspect, near, far
 //#region Set Camera
@@ -17,8 +47,18 @@ camera.position.set(-11.167, 7.397, 15.736)  //Define a Posição Inicial da Cam
 camera.rotation.set(140, -0.5, -0.072)  //Define a Rotação Inicial da Camara
 //#endregion
 
-const meuCanvas = document.getElementById('meuCanvas')
-const renderer = new THREE.WebGLRenderer({canvas: meuCanvas})
+let camera2 = new THREE.PerspectiveCamera( 60, 700/ 600,1, 1000 );
+
+let meuCanvas = document.getElementById('meuCanvas')
+let canvasDesc = document.getElementById('canvasDesc')
+
+var renderer = new THREE.WebGLRenderer({canvas: meuCanvas})
+
+var renderer2 = new THREE.WebGLRenderer({canvas: canvasDesc})
+
+
+renderer.setSize(700,500)
+renderer2.setSize(700,500)
 
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement )
@@ -31,38 +71,75 @@ controls.zoomSpeed = 0.4; //Velocidade de Zoom
 controls.target = new THREE.Vector3(0, 5, 0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
 controls.enablePan = false; //Desativa Movimentação da Camara pelo Utilizador
 
+let controls2 = new THREE.OrbitControls(camera2, renderer2.domElement )
+
+/* let grid = new THREE.GridHelper()
+let axes = new THREE.AxesHelper(10) 
+scene.add(axes)
+scene.add(grid)*/
+scene.background = new THREE.Color( 0xf0f0f0 )
+//const pmremGenerator = new THREE.PMREMGenerator( renderer )
+//scene.background = new THREE.Color('gray')
+//scene.environment = pmremGenerator.fromScene( new THREE.RoomEnvironment(), 0.04 ).texture
+/* sceneDesc.background = new THREE.Color( 0xf0f0f0 )
+sceneDesc.environment = pmremGenerator.fromScene( new THREE.RoomEnvironment(), 0.04 ).texture
+
+ */
+
 renderer.toneMapping = THREE.ACESFilmicToneMapping; //Define o Mapa de Tons
 renderer.toneMappingExposure = 3; 
-renderer.shadowMap.enabled = true
-renderer.setSize(700,500)
 
-scene.background = new THREE.Color( 0xf0f0f0 )
-const pmremGenerator = new THREE.PMREMGenerator( renderer )
-scene.environment = pmremGenerator.fromScene( new THREE.RoomEnvironment(), 0.04 ).texture
+//renderer.setSize(300, window.innerHeight ); 
+//renderer.setClearColor('white')
+//renderer.shadowMap.enabled = true
+//document.body.appendChild( renderer.domElement )
+/* renderer2.toneMapping = THREE.ACESFilmicToneMapping; //Define o Mapa de Tons
+renderer2.toneMappingExposure = 3;  */
+//renderer2.shadowMap.enabled = true
 
-camera.position.set( 4, 5, 20)
+
+//document.body.appendChild( renderer.domElement ); 
+//  camera.position.x = 4
+// camera.position.y = 8
+// camera.position.z = 15 
+// camera.lookAt(0,8,0)
+//camera.position.set( 4, 5, 20)
+//camera.lookAt( 0, 0, 0)
+
+camera2.position.x = -7
+camera2.position.y = 8
+camera2.position.z = 15
+camera2.lookAt(0,0,0)
 
 //LIMITA A VISIBILIDADE INFERIOR
 controls.maxPolarAngle = Math.PI/2
 //LIMITA A VISIBILIDADE SUPERIOR
 controls.minPolarAngle = Math.PI/3
+//DESABILITAR ZOOM
+//controls.enableZoom= false;
 
-/*
------------------------------------------
-ANIMAÇÕES
------------------------------------------
-*/
-let relogio = new THREE.Clock(scene)
-let misturador = new THREE.AnimationMixer(scene)
-/*---------------------------------------------*/
+controls2.enabled= false;
+
+
+/*  //set light
+let luz = new THREE.PointLight( "white" )
+let luzDesc = new THREE.PointLight( "white" )
+//luz.position.set( 5, 6, 0 )
+luz.position.set( 2, 6, 7)
+//luz.castShadow = true
+scene.add(luz)  
+
+luzDesc.position.set( 2, 6, 7)
+//luzDesc.castShadow = true
+sceneDesc.add(luzDesc)   */
+
 
 
 new THREE.GLTFLoader().load(
-    './ficheiro_gltf/TV_vewV7.gltf',
-    function ( gltf ) {
+    './ficheiro_gltf/TV_vewV7.gltf', 
+    function ( gltf ) { 
     scene.add( gltf.scene )
-     
-    gltf.parser.getDependencies( 'material' ).then( ( materials ) => {
+   /*  gltf.parser.getDependencies( 'material' ).then( ( materials ) => {
         //materials1=materials[2]
         console.log( materials )
 
@@ -95,43 +172,99 @@ new THREE.GLTFLoader().load(
             }
         }
     
-    } ) 
-
-    scene.traverse( function(obj) {
-        if (obj.isMesh) {
+    } ) */
+    scene.traverse(function (obj){
+        if(obj.isMesh){
             obj.castShadow = true
-            obj.receiveShadow = true			
+            obj.receiveShadow = true
+        
         }
-
-        if (obj.name.includes("door") || obj.name.includes("drawer") || obj.name.includes("rack")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-           objAnimated.push(obj)
+        
+        if(obj.name.includes("doorLeft")){
+            console.log("entreiiiii")
         }
+        console.log(obj.children)
 
-        if (obj.name.includes("Cube_") || obj.name.includes("txt_")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-           objMedidas.push(obj)
-        }
+        model1= obj.getObjectByName("Scene")
+      
+            for(let i=0; i<model1.length;i++){
+                if(model1[i].name=="doorRight" || model1[i].name=="doorLeft"){
+                    objAnimated=model1[i]
+                }
+            }
+        
 
-        //console.log(objAnimated)
-        //console.log(objMedidas)
+            /* objAnimated.push(obj.getObjectByName("doorRight"))
+            objAnimated.push(obj.getObjectByName("drawerUp"))
 
+
+     */
+            objMedidas.push(obj.getObjectByName("Cube_Altura"))
+            objMedidas.push(obj.getObjectByName("Cube_Canto"))
+            objMedidas.push(obj.getObjectByName("Cube_Comprimento"))
+            objMedidas.push(obj.getObjectByName("Cube_Largura"))
+            objMedidas.push(obj.getObjectByName("txt_Altura"))
+            objMedidas.push(obj.getObjectByName("txt_Canto"))
+            objMedidas.push(obj.getObjectByName("txt_Comprimento"))
+            objMedidas.push(obj.getObjectByName("txt_Largura"))
+            
         hideMedidas()
+            //objAnimated.push(obj.getObjectByName("doorLeft"))
+            //objAnimated.push(obj.getObjectByName("drawerUp"))
 
+        RACK= obj.getObjectByName("rack")
+    
+        DOOR_LEFT_OUT = obj.getObjectByName("doorLeft").children[0]
+        DOOR_LEFT_IN = obj.getObjectByName("doorLeft").children[2]
+
+        DOOR_RIGHT_OUT = obj.getObjectByName("doorRight").children[1]
+        DOOR_RIGHT_IN = obj.getObjectByName("doorRight").children[2]
+
+        DRAWER_UP = obj.getObjectByName("drawerUp").children[0]
+        DRAWER_DOWN = obj.getObjectByName("drawerDown").children[1]
+    
         clip1 = THREE.AnimationClip.findByName( gltf.animations, 'doorRightAction')
         clip2 = THREE.AnimationClip.findByName( gltf.animations, 'doorLeftAction.001' )
         clip3 = THREE.AnimationClip.findByName( gltf.animations, 'drawerUp' ) 
         //console.log(clip1)
-        acao1 = misturador.clipAction(clip1)
-        acao2 = misturador.clipAction(clip2)
-        acao3 = misturador.clipAction(clip3)
-
+        acao1 = misturador.clipAction( clip1)
+        acao2 = misturador.clipAction( clip2 )
+        acao3 = misturador.clipAction( clip3)
     })
-}
-)
+ })
 
+/* loaderObj2.load(
+'./ficheiro_gltf/TV_vewV7.gltf', 
+function ( gltf2 ) { 
+    //scene.add( gltf.scene )
+    sceneDesc.add(gltf2.scene)
+    sceneDesc.traverse(function (y){
+        if(y.isMesh){
+            //y.castShadow = true
+            //y.receiveShadow = true
+        }
+
+        if(y.getObjectByName("Scene")!= null){
+            model2 = y.getObjectByName("Scene")
+        
+            RACK_DESC= y.getObjectByName("rack")
+        
+            DOOR_LEFT_OUT_DESC = y.getObjectByName("doorLeft").children[0]
+            DOOR_LEFT_IN_DESC = y.getObjectByName("doorLeft").children[2]
+
+            DOOR_RIGHT_OUT_DESC = y.getObjectByName("doorRight").children[1]
+            DOOR_RIGHT_IN_DESC = y.getObjectByName("doorRight").children[2]
+
+            DRAWER_UP_DESC = y.getObjectByName("drawerUp").children[0]
+            DRAWER_DOWN_DESC = y.getObjectByName("drawerDown").children[1]
+        }
+    })
+}) */
+
+
+//update/render loop
 addLights()
-animate()
+animar()
 
 //#region Disables Auto-Rotate OnClick
 //Desativa a Rotação Automática ao clicar
@@ -141,10 +274,11 @@ document.getElementById("meuCanvas").onclick = function stopAutoRotate() {
   };
 
 
-function animate() {
-    requestAnimationFrame( animate )
+function animar() {
+    requestAnimationFrame( animar )
     controls.update();
     renderer.render( scene, camera )
+    renderer2.render( sceneDesc, camera2 )
     misturador.update( relogio.getDelta() )
 }
 
@@ -154,7 +288,7 @@ function addLights(){
     const lightAmb = new THREE.AmbientLight( 0xffffff, 1.0); 
     //&const lightAmb1 = new THREE.AmbientLight( 0xffffff, 4.0); 
     scene.add( lightAmb );
-    //  sceneDesc.add( lightAmb1 );
+  //  sceneDesc.add( lightAmb1 );
 
     const lightDir = new THREE.DirectionalLight( 0xffffff, 1 );
    // const lightDir1 = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -165,7 +299,10 @@ function addLights(){
     //scene.add(dlHelper);
     scene.add( lightDir );
    // sceneDesc.add( lightDir1 );
+
+    
 }
+
 
 function hideMedidas(){
     for(let i=0;i<objMedidas.length;i++){
@@ -183,6 +320,7 @@ function showMedidas(){
     }
     enableMedidas= true
 }
+
 /*
 ----------------------------------------------------------------------------------------------------------------------------
 TIPOS DE VISTA
@@ -229,7 +367,7 @@ document.getElementById("crItem_Vist_scale").addEventListener("click",function()
         fecharPortas()
     }
 
-    showMedidas()
+    showobjMedidas()
 })
 
 document.getElementById("crItem_Vist_normal").addEventListener("click",function(){
@@ -338,6 +476,15 @@ btn_met_3.addEventListener('click',function(){
 })
 
    
+/* function resetMaterials(){
+
+    model1.children[0].material = material1
+    model1.children[1].material = material2
+    model1.children[2].material = material3
+    
+    
+}
+*/
 let mouse = new THREE.Vector2()
 let raycaster = new THREE.Raycaster()
 let oldMaterialOUT,oldMaterialIN
@@ -345,8 +492,8 @@ let oldMaterialOUT,oldMaterialIN
 
 
 window.onclick = function (event) {
-event.preventDefault();
-  let rect = event.target.getBoundingClientRect();
+    event.preventDefault();
+  var rect = event.target.getBoundingClientRect();
   mouse.x = ( ( event.clientX - rect.left ) / ( rect.right - rect.left ) ) * 2 - 1;
   mouse.y = - ( ( event.clientY - rect.top ) / ( rect.bottom - rect.top) ) * 2 + 1;
 
@@ -367,17 +514,18 @@ function catchFirst(){
 
     raycaster.setFromCamera(mouse, camera)
 
-    let intersectedArray  = raycaster.intersectObjects(objAnimated,true)
-
     console.log(objAnimated)
+    let intersectedArray  = raycaster.intersectObjects(objAnimated)
+
+    //console.log(model1)
     console.log(intersectedArray )
 
     if(intersectedArray.length>0){
 
-        let intersectedObject = intersectedArray[0].object
+        let intersectedObject = intersectedArray[0].object;
 
         
-        if(intersectedObject.parent.name.includes("doorRight")){
+        if(intersectedObject.name.includes("doorLeft")){
 
         /*       oldMaterialOUT= DOOR_LEFT_OUT.material
             oldMaterialIN= DOOR_LEFT_IN.material
@@ -387,16 +535,14 @@ function catchFirst(){
             DOOR_RIGHT_IN.material = mouseSelected */
             if(ANIM_PORTA!=true){
                 abrirPortas()
-                //setTimeout(function(){ fecharPortas()}, 5000);
+                setTimeout(function(){ fecharPortas()}, 5000);
             }else{
                 fecharPortas()
             }
                     
         }
 
-        console.log(intersectedObject.parent)
-
-        if(intersectedObject.parent.name.includes("drawerUp")){
+        if(intersectedObject.name.includes("doorRight")){
             if(ANIM_GAVETA!=true){
                 abrirGaveta()
                 setTimeout(function(){ fecharGaveta()}, 5000)
@@ -443,7 +589,7 @@ function abrirGaveta(){
     acao3.clampWhenFinished = true
     
 
-    //hideobjMedidas()
+    hideobjMedidas()
     acao3.play()
     ANIM_GAVETA=true
 }
@@ -454,8 +600,11 @@ function fecharGaveta(){
     acao3.timeScale = -0.5
     acao3.setLoop(THREE.LoopOnce)
     acao3.clampWhenFinished = true
-    //hideobjMedidas()
+    hideobjMedidas()
     acao3.play()
     ANIM_GAVETA=false
 }
  
+//window.addEventListener('mousehover', onPointerDown)
+//window.addEventListener('onclick', onPointerDown) 
+/* window.addEventListener('pointerup', onPointerUp,true)  */
