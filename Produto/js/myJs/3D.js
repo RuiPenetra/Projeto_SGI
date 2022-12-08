@@ -1,8 +1,14 @@
 let objAnimated = []
 let objMedidas=[]
+let movel=[]
 let ANIM_GAVETA = false
 let ANIM_PORTA = false
 let acao1,acao2,acao3
+let matWood_1,matWood_2,matWood_3,matWood_4
+let mat_MET_1,mat_MET_2,mat_MET_3
+let mouseSelected
+let RACK,DOOR_LEFT_IN,DOOR_LEFT_OUT,DOOR_RIGHT_IN,DOOR_RIGHT_OUT,DRAWER_UP,DRAWER_DOWN
+
 let scene = new THREE.Scene()
 scene.background = new THREE.Color(0xE5E5DA)
 
@@ -33,7 +39,7 @@ controls.enablePan = false; //Desativa Movimentação da Camara pelo Utilizador
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping; //Define o Mapa de Tons
 renderer.toneMappingExposure = 3; 
-renderer.shadowMap.enabled = true
+//renderer.shadowMap.enabled = true
 renderer.setSize(700,500)
 
 scene.background = new THREE.Color( 0xf0f0f0 )
@@ -58,7 +64,7 @@ let misturador = new THREE.AnimationMixer(scene)
 
 
 new THREE.GLTFLoader().load(
-    './ficheiro_gltf/TV_vewV7.gltf',
+    './ficheiro_gltf/TV_vewV8.gltf',
     function ( gltf ) {
     scene.add( gltf.scene )
      
@@ -69,16 +75,16 @@ new THREE.GLTFLoader().load(
         for(let i =0; i<materials.length;i++){
             switch(materials[i].name){
                 case "wood1":
-                    mat_MAD_1=materials[i]
+                    matWood_1=materials[i]
                     break;
                 case "wood2":
-                    mat_MAD_2=materials[i]
+                    matWood_2=materials[i]
                     break;
                 case "wood3":
-                    mat_MAD_3=materials[i]
+                    matWood_3=materials[i]
                     break;
                 case "wood4":
-                    mat_MAD_4=materials[i]
+                    matWood_4=materials[i]
                     break;
                 case "metalic1":
                     mat_MET_1=materials[i]
@@ -99,8 +105,8 @@ new THREE.GLTFLoader().load(
 
     scene.traverse( function(obj) {
         if (obj.isMesh) {
-            obj.castShadow = true
-            obj.receiveShadow = true			
+            //obj.castShadow = true
+            //obj.receiveShadow = true			
         }
 
         if (obj.name.includes("door") || obj.name.includes("drawer") || obj.name.includes("rack")) {
@@ -111,6 +117,11 @@ new THREE.GLTFLoader().load(
         if (obj.name.includes("Cube_") || obj.name.includes("txt_")) {
             //Se o Objeto for uma Decoração, vai para o Array decor
            objMedidas.push(obj)
+        }
+
+        if (obj.name.includes("rack") || obj.name.includes("doorLeft")|| obj.name.includes("doorRight")|| obj.name.includes("drawerUp")|| obj.name.includes("drawerDown")|| obj.name.includes("shelf")) {
+            //Se o Objeto for uma Decoração, vai para o Array decor
+            movel.push(obj)
         }
 
         //console.log(objAnimated)
@@ -151,7 +162,7 @@ function animate() {
 function addLights(){
     //MEtal
     //let lightAmb = new THREE.AmbientLight( 0xffffff, 2.0); 
-    const lightAmb = new THREE.AmbientLight( 0xffffff, 1.0); 
+    const lightAmb = new THREE.AmbientLight( 0xffffff, 2.0); 
     //&const lightAmb1 = new THREE.AmbientLight( 0xffffff, 4.0); 
     scene.add( lightAmb );
     //  sceneDesc.add( lightAmb1 );
@@ -276,7 +287,40 @@ let btn_met_2 = document.getElementById("btn_met_2")
 let btn_met_3 = document.getElementById("btn_met_3")
 
 
-btn_mad_1.addEventListener('click',function(){
+function changeMaterial(id){
+
+    let count = 0
+    while(movel.length>count){
+        switch(id){
+            case "wood1":
+                paintMovel(matWood_1)
+                break
+            case "wood2":
+                paintMovel(matWood_2)
+                break;
+            case "wood3":
+                paintMovel(matWood_3)
+                break;
+    
+        }
+        count++
+    }
+}
+
+function paintMovel(mat){
+
+    console.log(movel)
+    for(let i=0; i<movel.length;i++){
+        if(movel[i].name=="doorLeft" || movel[i].name=="doorRight"){
+            
+            i++;
+        }
+        movel[i].material=mat
+    }
+
+}
+
+/* btn_mad_1.addEventListener('click',function(){
 
     console.log(mat_MAD_1)
     RACK.material= mat_MAD_1
@@ -311,7 +355,7 @@ btn_mad_4.addEventListener('click',function(){
     DOOR_RIGHT_OUT.material = mat_MAD_4
     DRAWER_UP.material= mat_MAD_4
     DRAWER_DOWN.material= mat_MAD_4
-})
+}) */
 
 btn_met_1.addEventListener('click',function(){
     RACK.material= mat_MET_1
