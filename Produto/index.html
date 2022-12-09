@@ -478,50 +478,34 @@
 
                                         <div class="row fix-carousel">
                                             <div id="pdpCarouselContainer_350271833" class="mainMedia prod-img-container">
-                                                <div class="mainMedia_imageContainer"
-                                                    style="padding:0%; z-index: 1">
+                                                <div class="mainMedia_imageContainer" style="padding:0%; z-index: 1">
+                                                    <div class="load">
+                                                        <div id="myProgress">
+                                                            <div id="myBar"></div>
+                                                          </div>
+                                                    </div>
                                                     <img src="./src/ico_180.svg" class="canvasIcon" alt="180icon"/>
                                                     <canvas id="meuCanvas"></canvas>
                                                 </div>
 
-                                                <div id="tipo_vista" class="row tipo" style="text-align: center;">
+                                                <div class="tooltip-mv" style="float:right;top: -30px;">
+                                                    <button id="btn_decor">
+                                                        <svg  x="0px" y="0px" width="50px" height="50px" viewBox="0 0 90 50" >
+                                                            <path d="M9.8 40.4q-.5 0-.825-.325-.325-.325-.325-.825v-2.1H7.4q-1.9 0-3.15-1.375T3 32.5V20.95q0-1.35.925-2.35t2.225-1q1.35 0 2.275 1 .925 1 .925 2.35v8h29.3v-8q0-1.35.925-2.35t2.275-1q1.3 0 2.225 1T45 20.95V32.5q0 1.9-1.25 3.275T40.6 37.15h-1.25v2.1q0 .45-.3.8-.3.35-.8.35t-.825-.325q-.325-.325-.325-.825v-2.1H10.9v2.1q0 .5-.3.825-.3.325-.8.325Zm1.8-13.7v-5.75q0-2.05-1.125-3.65T7.4 15.45V12.6q0-1.8 1.2-3.075 1.2-1.275 3-1.275h24.8q1.8 0 3 1.275t1.2 3.075v2.85q-1.9.35-3.05 1.925-1.15 1.575-1.15 3.575v5.75Z"/>
+                                                        </svg> 
+                                                        <span id="disableOPT"><svg xmlns="http://www.w3.org/2000/svg" height="50" width="50"><path d="M6.9 26.25V21.7h34.25v4.55Z"/></svg></span>
+                                                    </button>
+                                                     <span class="tooltip-mvtext">Decorações</span>
+                                                </div> 
+                                                
+<!--                                                 <div id="tipo_vista" class="row tipo" style="text-align: center;">
                                                     <span id="vist_ext">
                                                         <button class="item_vist" >Abrir</button>
                                                     </span>
                                                     <span id="vist_int">
                                                         <button class="item_vist" >Fechar</button>
                                                     </span>                                                
-                                                </div>
-                                                <div class="syte_container" role="dialog" id="syteContainer"
-                                                    aria-labelledby="sytePopinTitle" data-sytei="8737"
-                                                    data-sytes="5ef9f39462c16f1e0c3d18f7"
-                                                    data-sytev="29471943-532a-4caa-9417-1227777fa50a"
-                                                    data-sytesessionid="12499303"
-                                                    data-imgprefix="https://cdn.laredoute.com">
-                                                    <p id="sytePopinTitle" class="visuallyHidden">Artigos similares</p>
-                                                    <label for="syteSelector" id="syteTitle"
-                                                        class="lrTitle lrTitle--4 lrTitle--semiBold margin-b--2 syte_title">Ordenar
-                                                        por:</label>
-                                                    <div class="syte_selectorContainer">
-                                                        <select name="syteSelector" id="syteSelector" class="syte_selector">
-                                                            <option value="similar" selected="selected">Mais semelhantes
-                                                            </option>
-                                                            <option value="priceincrease">Preços mais baratos</option>
-                                                            <option value="pricedecrease">Preços mais caros</option>
-                                                        </select>
-                                                        <span class="lr-arrow lr-arrow-selector lr-arrow-down"></span>
-                                                    </div>
-                                                    <div id="siteContentWrapper" class="syte_contentWrapper">
-                                                        <div class="syte_contentWrapper_zone">
-                                                            <div id="syteProductList" class="syte_productList"></div>
-                                                        </div>
-                                                        <div id="syteThumbnailImageContainer"
-                                                            class="syte_thumbnailImageContainer">
-                                                            <div id="syteThumbnailImageWrapper"
-                                                                class="syte_thumbnailImageWrapper"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div class="media_container">
                                                 <div id="thumbnails_350271833" class="thumbnails">
@@ -650,46 +634,101 @@
                                             </script>
 
                                         </div>
-                                        <div id="filterColorContainer_350271833" class="pdp-filter filter-colour disabled" data-group="#product-350271833" tabindex="0">
-                                            <div>
-                                                <div>
-                                                    <img src="./src/ico_texture.png" class="ico_textura" alt="">
-                                                    <b>Material:</b>
-                                                    <button id="btn_tipo_madeira"class="btn_tipo_material type-active">Madeira</button>
-                                                    <button id="btn_tipo_metal" class="btn_tipo_material">Metal</button>
+                                    
+                                        <div>
+                                            <div id="spCustomize">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48" viewBox="0 0 90 40">
+                                                    <path d="M10.75 42.15q-1.7 0-3.35-.575Q5.75 41 4.5 39.7q1.75-.6 2.5-1.75t.75-3.1q0-2.2 1.525-3.725T13 29.6q2.2 0 3.725 1.525t1.525 3.725q0 3.2-2.175 5.25t-5.325 2.05Zm0-3q1.75 0 3.125-1.25t1.375-3.05q0-1-.625-1.625T13 32.6q-1 0-1.625.625t-.625 1.625q0 1.95-.425 2.875T8.75 38.85q.3.05 1 .175.7.125 1 .125Zm11.5-8.85-4.5-4.75 18.8-18.8q.7-.7 1.55-.725.85-.025 1.6.725l1.45 1.45q.75.75.725 1.625-.025.875-.725 1.575ZM13 34.85Z"/>
+                                                </svg>
+                                            </div>
+                                            <span id="customTitle">Personalizar</span>
+                                            <div id="customContent">
+                                                <div class="topic">
+                                                    <div>
+                                                        <img src="./src/ico_texture.png" class="ico_textura" alt="" style="position: relative;">
+                                                        <b>Material:</b>
+                                                        <button id="btn_tipo_madeira"class="btn_tipo_material type-active" style="position: flex;">Madeira</button>
+                                                        <button id="btn_tipo_metal" class="btn_tipo_material" style="position: flex;" >Metal</button>
+                                                    </div>
+                                                    <div id="list_mat_madeira" >
+                                                        <div class="tooltip-mv">
+                                                            <button id="btn_mad_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_1.png')" onclick="changeMaterial('wood1')"><img id="item_check" src="./src/check.png" alt=""></button>
+                                                                <span class="tooltip-mvtext">TEXTURA 0</span>
+                                                        </div> 
+                                                        <div class="tooltip-mv"> 
+                                                            <button id="btn_mad_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_2.jpg')" onclick="changeMaterial('wood2')"></button>
+                                                            <span class="tooltip-mvtext">TEXTURA 1</span>
+                                                        </div> 
+                                                        <div class="tooltip-mv">
+                                                            <button id="btn_mad_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_3.png')" onclick="changeMaterial('wood3')"></button>
+                                                            <span class="tooltip-mvtext">TEXTURA 3</span>
+                                                        </div>
+                                                            <div class="tooltip-mv">
+                                                            <button id="btn_mad_4" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_4.png')" onclick="changeMaterial('wood4')"></button>
+                                                            <span class="tooltip-mvtext">TEXTURA 5</span>
+                                                        </div>
+                                                    </div>
+                                                    <div id="list_mat_metal">
+                                                        <div class="tooltip-mv">
+                                                            <button id="btn_met_1" class="item_mat"  style="background-image:url('./ficheiro_gltf/textures/metal/metal_1.png')" onclick="changeMaterial('metal1')"></button>
+                                                            <span class="tooltip-mvtext">TEXTURA 12</span>
+                                                        </div>
+                                                        <div class="tooltip-mv">
+                                                            <button id="btn_met_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/metal_2.png')" onclick="changeMaterial('metal2')"></button>
+                                                            <span class="tooltip-mvtext">TEXTURA 13</span>
+                                                        </div>
+                                                        <div class="tooltip-mv">
+                                                            <button id="btn_met_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/metal_3.png')" onclick="changeMaterial('metal3')"></button>
+                                                            <span class="tooltip-mvtext">TEXTURA 14</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            <!--     <div class="topic">
+                                                    <div>
+                                                        <div style="background-color: rgba(225, 225, 225, 0.133); width: auto; position: relative; border-radius: 10px; border-bottom:3px solid #383838; padding: 5px;">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" height="auto" width="50" viewBox="0 0 90 40" style="margin-right:-15px;margin-bottom:-5px; position:flex; ">
+                                                                <path d="M5.7 42.3v-3.4h4V9.7q0-1.4 1-2.4t2.4-1h21.8q1.4 0 2.4 1t1 2.4v29.2h4v3.4Zm24.55-3.4h4.65V9.7h-8.85V8.5q1.8.3 3 1.725t1.2 3.325Zm-8.4-13.25q.7 0 1.175-.475Q23.5 24.7 23.5 24q0-.7-.475-1.175-.475-.475-1.175-.475-.75 0-1.2.475-.45.475-.45 1.175 0 .7.475 1.175.475.475 1.175.475Z"/>
+                                                            </svg>
+                                                            <b style="margin-top:-10px;">Porta</b>
+                                                        </div>
+                                                        <div id="list_mat_madeira" >
+                                                            <div class="tooltip-mv">
+                                                                <button id="btn_mad_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_1.png')" onclick="changeMaterial('wood1')"><img id="item_check" src="./src/check.png" alt=""></button>
+                                                                    <span class="tooltip-mvtext">TEXTURA 0</span>
+                                                            </div> 
+                                                            <div class="tooltip-mv"> 
+                                                                <button id="btn_mad_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_2.jpg')" onclick="changeMaterial('wood2')"></button>
+                                                                <span class="tooltip-mvtext">TEXTURA 1</span>
+                                                            </div> 
+                                                            <div class="tooltip-mv">
+                                                                <button id="btn_mad_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_3.png')" onclick="changeMaterial('wood3')"></button>
+                                                                <span class="tooltip-mvtext">TEXTURA 3</span>
+                                                            </div>
+                                                                <div class="tooltip-mv">
+                                                                <button id="btn_mad_4" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_4.png')" onclick="changeMaterial('wood4')"></button>
+                                                                <span class="tooltip-mvtext">TEXTURA 5</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
                                             </div>
-                                        </div>
-                                        <div id="list_mat_madeira" >
-                                            <div class="tooltip-mv">
-                                                <button id="btn_mad_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_0.png')" onclick="changeMaterial('wood1')"><img id="item_check" src="./src/check.png" alt=""></button>
-                                                 <span class="tooltip-mvtext">TEXTURA 0</span>
-                                            </div> 
-                                            <div class="tooltip-mv"> 
-                                                <button id="btn_mad_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_1.jpg')" onclick="changeMaterial('wood2')"></button>
-                                                <span class="tooltip-mvtext">TEXTURA 1</span>
-                                            </div> 
-                                            <div class="tooltip-mv">
-                                                <button id="btn_mad_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_3.png')" onclick="changeMaterial('wood3')"></button>
-                                                <span class="tooltip-mvtext">TEXTURA 3</span>
+                                    </div>
+                                   
+     
+                                        <div>
+                                            <div id="spCustomize">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48" viewBox="0 0 90 40">
+                                                    <path d="M15.8 33.45q-1.35 0-2.25-.9-.9-.9-.9-2.25V18q0-1.35.9-2.25.9-.9 2.25-.9h2.1l1.5-1.5h9.35l1.5 1.5h2.1q1.35 0 2.25.9.9.9.9 2.25v12.3q0 1.35-.9 2.25-.9.9-2.25.9Zm8.25-6.35q1.25 0 2.1-.825.85-.825.85-2.075 0-1.3-.85-2.125t-2.1-.825q-1.3 0-2.125.825T21.1 24.2q0 1.25.825 2.075.825.825 2.125.825ZM18.35.7Q19.7.3 21.2.15 22.7 0 24.05 0q4.65 0 8.85 1.675Q37.1 3.35 40.325 6.3q3.225 2.95 5.275 6.95 2.05 4 2.45 8.65h-3.3q-.3-3.7-1.975-6.975Q41.1 11.65 38.45 9.15q-2.65-2.5-6.025-4.075Q29.05 3.5 25.4 3.25l3.65 3.8-2.25 2.1ZM29.7 47.3q-1.35.4-2.85.55-1.5.15-2.8.15-4.7 0-8.875-1.675T7.75 41.7q-3.25-2.95-5.3-6.95t-2.5-8.65H3.3q.3 3.7 1.975 6.975Q6.95 36.35 9.6 38.85q2.65 2.5 6.025 4.075Q19 44.5 22.65 44.75L19 40.95l2.25-2.1Z"/>
+                                                </svg>
+                                                
                                             </div>
-                                             <div class="tooltip-mv">
-                                                <button id="btn_mad_4" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_5.png')" onclick="changeMaterial('wood4')"></button>
-                                                <span class="tooltip-mvtext">TEXTURA 5</span>
-                                            </div>
-                                        </div>
-                                        <div id="list_mat_metal">
-                                            <div class="tooltip-mv">
-                                                <button id="btn_met_1" class="item_mat"  style="background-image:url('./ficheiro_gltf/textures/metal/Metal032_4K_Color.png')"></button>
-                                                <span class="tooltip-mvtext">TEXTURA 12</span>
-                                            </div>
-                                            <div class="tooltip-mv">
-                                                <button id="btn_met_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/Metal029_4K_Color.png')"></button>
-                                                <span class="tooltip-mvtext">TEXTURA 13</span>
-                                            </div>
-                                            <div class="tooltip-mv">
-                                                <button id="btn_met_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/Metal027_4K_Color.png')"></button>
-                                                <span class="tooltip-mvtext">TEXTURA 14</span>
+                                            <span id="customTitle">Visualizar</span>
+                                            <div id="customContent">
+                                                <button>Frente</button>
+                                                <button>Atrás</button>
+                                                <button>Esquerda</button>
+                                                <button>Direita</button>
+
                                             </div>
                                         </div>
                                         <div id="filterColor_350271833" data-cerberus="dropdown_pdp_colors1"
@@ -710,7 +749,7 @@
                                                             <del>645.00 €</del>
                                                             <span class="product-price-from cost-from"
                                                                 style="display: none;">a partir de</span>
-                                                            <span class="product-price">516.00 €</span>
+                                                            <span class="product-price">645.00 €</span>
                                                         </div>
                                                     </div>
                                                 </button>
@@ -742,9 +781,7 @@
                                                     <div class=""><span class="pdp-filter-size-value">TAMANHO
                                                             ÚNICO</span><span class="pdp-filter-price-value"><span
                                                                 aria-hidden="true" data-percentage="20"
-                                                                hidden=""></span><del
-                                                                class="pdp-filter-price-delete-value">645.00
-                                                                €</del><span class="priceNow">516.00 €</span></span>
+                                                                hidden=""><span class="priceNow">645.00 €</span></span>
                                                     </div>
                                                 </div>
                                             </button>
@@ -771,11 +808,9 @@
                                                 <label for="quantitySelected_350271833">
                                                     Quantidade
                                                 </label>
-                                                
-                                                    <button id="btn_quant_decre" class="btn_quant">-</button>
-                                                    <input type="text" id="input_quant" class="input_quant" value="1" readonly disabled/>
-                                                    <button id="btn_quant_incre" class="btn_quant">+</button>
-                                                
+                                                <button id="btn_quant_decre" class="btn_quant">-</button>
+                                                <input type="text" id="input_quant" class="input_quant" value="1" readonly disabled/>
+                                                <button id="btn_quant_incre" class="btn_quant">+</button>                            
                                             </div>
                                         </div>
                                 
@@ -790,7 +825,7 @@
                                                             style="display: none;"></div>
                                             
                                                         <span id="showSalePriceAfter_350271833" class="price"
-                                                            data-cerberus="txt_pdp _discountedPrice1">516.00 €</span>
+                                                            data-cerberus="txt_pdp _discountedPrice1">645.00 €</span>
 
                                                         <div class="color-price-container">
                                                             <span id="showRedPrice_350271833"
@@ -812,7 +847,7 @@
                                                         </div>
                                                     </div>
 
-
+<!-- 
                                                     <div id="3xcb_350271833" class="tooltip-container"
                                                         style="display: none">
 
@@ -835,7 +870,7 @@
                                                         <a
                                                             href="https://www.laredoute.pt/services/moveis-domicilio.aspx"><img
                                                                 src="./src/Laredoute/img/Sticker-carrinho_PLUS-v2.webp"></a>
-                                                    </div>
+                                                    </div> -->
                                                     <div id="tagsPriceBottomB_350271833" class="tag-container"
                                                         style="display: none;"></div>
                                                     <div id="tagPriceLeftByArticle_350271833" class="tag-container"

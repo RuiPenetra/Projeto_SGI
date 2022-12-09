@@ -38,38 +38,9 @@
 }
 
 
-
-
-
-/* #img_tex_1{
-    width: 30px;
-    height: 30px;
-    margin: 10px;
-    content:url("./../../src/texture/Wood028_2K_Color.png");
-    background-repeat: no-repeat;
-    background-size: auto auto;
-    border-color: grey;
-    border-radius: 30px;
-}
-
-#img_tex_2{
-  width: 30px;
-  height: 30px;
-  margin: 10px;
-  content:url("./../../src/texture/WoodFloor051_2K_Color.jpg");
-  background-repeat: no-repeat;
-  background-size: auto auto;
-  border-color: grey;
-  border-radius: 30px;
-} */
-
-.nome_material{
-  color: black;
-}
-
 .item_mat{
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-repeat: no-repeat;
   background-size: auto auto;
   border-radius: 30px;
@@ -79,7 +50,7 @@
   /* position: relative; */
 
 }
-
+/* 
 .alert_anim{
   z-index: 8;
   width: 700px;
@@ -98,12 +69,12 @@
 
 header{
   z-index: 7 !important;
-}
+} */
 
 #item_check{
   margin-bottom: -30px;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   z-index: 3;
   position: relative;
 }
@@ -154,7 +125,7 @@ header{
     
     /* Position the tooltip */
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     bottom: 100%;
     left: 50%;
     margin-left: -60px;
@@ -171,61 +142,17 @@ header{
     outline:none;
   }
 
-  .ico_textura{
-    width: 50px;
-    height: 50px;
-  
-  }
-
 
 
  .type-active{
-  background-color: black ;
+  background-color: black !important ;
   border-radius: 20px;
-  color: #fff;
+  color: #fff !important;
  }
 
  
 
 
-
-  
-.btn_tipo_material{
-  width: 90px;
-  font-weight: 700;
-  padding: 10px;
-  margin-left: 20px;
-}
-
-.btn_tipo_material:focus{
-  background-color: black ;
-  border-radius: 20px;
-  color: #fff;
-
-}
-
-
-
-
-
-
-.stop-scrolling {
-  height: 100%;
-  overflow: hidden;
-}
-
-
-
-#list_mat_madeira{
-  /* margin-top: 20px; */
-
-  position: relative;
-  display: flex;
-}
-
-#list_mat_metal{
-  display: none;
-}
 
 /* #modal-bodys{
   position: relative;
@@ -288,7 +215,9 @@ header{
 }
 
 #meuCanvas{
-  z-index: 3 !important;
+  width: 700px;
+  height: 500px;
+  z-index: 2 !important;
   position:relative;
 }
 
@@ -391,6 +320,7 @@ header{
 }
 
 .input_quant {
+  background-color: rgba(255, 255, 255, 0);
   width: 50px;
   margin: 0px !important;
   line-height: 20px;
@@ -399,3 +329,241 @@ header{
  
   
 }
+
+#btn_decor{
+  background-color: rgb(0, 0, 0);
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 25px;
+  position:relative;
+  z-index: 3;
+}
+
+#btn_decor:hover{
+  background-color: #8d8d8d;
+}
+
+#btn_decor svg{
+  fill: rgb(255, 255, 255);
+  /* added */
+  position:relative;
+  top: -8px;
+  left: 2px;
+}
+
+.ico_decor{
+  fill: #2f2fd3;
+}
+
+#disableOPT{
+  display: none;
+  position: absolute;
+  margin-top: -58px;
+  margin-left: -10px;
+  z-index: 4;
+}
+
+#disableOPT svg{
+  transform: rotate(-45deg);
+  fill: #f50505;
+}
+
+
+
+/*
+----------------------------------------------------------------------------------------------------------------------------
+personalizar/visualizar
+----------------------------------------------------------------------------------------------------------------------------
+*/
+
+#spCustomize{
+  width: 35px;
+  height: 35px;
+  background-color: #000;
+  border-radius: 20px;
+  position: relative;
+  z-index: 3;
+
+}
+
+
+#spCustomize svg{
+  fill: #fff;
+  top:-7px;
+  right:-17px;
+  position: absolute;
+}
+
+#customTitle{
+  width: auto;
+  height: 20px;
+  background-color: rgb(37, 37, 37);
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 40px;
+  padding-right: 20px;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: -26px;
+  margin-bottom: 5px;
+  display: flex;
+  z-index: 2;
+  position: relative;
+
+}
+
+#customContent{
+  height: 100%;
+  display: absolute;
+  box-shadow: 0 0 4px #ccc;
+  border-radius: 10px;
+  margin-top: -15px;
+  margin-bottom: 10PX;
+  z-index: 1;
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.topic{
+  display: block;
+  width: auto; 
+  position: relative; 
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+
+
+  
+.btn_tipo_material{
+  width: 90px;
+  font-weight:bold;
+  font-size: 12px;
+  padding: 5px;
+  margin-left: 20px;
+}
+
+.btn_tipo_material:focus{
+  background-color: black;
+  border-radius: 20px;
+  color: #fff;
+
+}
+
+
+#btn_tipo_madeira{
+  background-color:#f6f7f9 ;
+  border-radius: 20px;
+  color: rgb(1, 1, 1);
+
+}
+
+#btn_tipo_metal{
+  background-color:#f6f7f9 ;
+  border-radius: 20px;
+  color: rgb(1, 1, 1);
+
+}
+
+.ico_textura{
+  width: 40px;
+  height: 40px;
+
+}
+
+#list_mat_madeira{
+  margin-top: 5px; 
+  position: relative;
+  display: flex;
+  margin-left: 20px;
+}
+
+#list_mat_metal{
+  margin-top: 5px; 
+  position: relative;
+  display: none;
+  margin-left: 20px;
+}
+
+
+
+.load{
+  width: 700px;
+  height: 500px;
+  position: fixed;
+  background-color: beige;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.85s, visibility 0.75s; 
+  transition-duration:18s;
+}
+
+.load-hidden{
+  /* opacity: 0; */
+  visibility: hidden;
+}
+
+#myProgress {
+  width: 100%;
+  background-color: grey;
+  
+  
+}
+
+#myBar {
+  width: 1%;
+  height: 30px;
+  background-color: green;
+  overflow: hidden;
+  -webkit-animation: prgBar 5s linear 0s infinite alternate;
+  animation: prgBar 5s linear 0s infinite alternate;}
+
+/* .load::after{
+  content:"";
+  width: 75px;
+  height: 75px;
+  border:15px solid #dddddd;
+  border-top-color:#f93131;
+  border-radius: 50%;
+  animation: prgBar 5s linear 0s infinite alternate;
+}
+ */
+/* @keyframes loading {
+  from{
+      width: 40px;
+  }
+  to{
+      width: 40px;
+  }
+  
+} */
+
+
+@-webkit-keyframes prgBar {
+  0% { width: 0% }
+  9.99% { width: 0% }
+  10% { width: 10% }
+  30% { width: 30% }
+  40% { width: 40% }
+  60% { width: 60% }
+  80% { width: 80% }
+  95% { width: 95% }
+  100% { width: 100% }
+  }
+  
+  @keyframes prgBar {
+  0% { width: 0% }
+  9.99% { width: 0% }
+  10% { width: 10% }
+  30% { width: 30% }
+  40% { width: 40% }
+  60% { width: 60% }
+  80% { width: 80% }
+  95% { width: 95% }
+  100% { width: 100% }
+  }
