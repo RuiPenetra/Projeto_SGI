@@ -235,7 +235,7 @@ header{
   width: 50px;
   height: 50px;
   float: right;
-  z-index: 6 !important;
+  z-index: 3 !important;
   position: relative;
 
 }
@@ -493,9 +493,9 @@ personalizar/visualizar
 .load{
   width: 700px;
   height: 500px;
-  position: fixed;
+  position: absolute;
   background-color: beige;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -544,26 +544,30 @@ personalizar/visualizar
 } */
 
 
-@-webkit-keyframes prgBar {
-  0% { width: 0% }
-  9.99% { width: 0% }
-  10% { width: 10% }
-  30% { width: 30% }
-  40% { width: 40% }
-  60% { width: 60% }
-  80% { width: 80% }
-  95% { width: 95% }
-  100% { width: 100% }
+  .zoom-in-out-box {
+    margin: 20px;
+    width: auto;
+    height: auto;
+    animation: zoom-in-zoom-out 1s ease infinite;
+    z-index: 4;
+  }
+
+  .text_load{
+
+    width: 100%;
+    display: flex;
+    position: relative;
+
   }
   
-  @keyframes prgBar {
-  0% { width: 0% }
-  9.99% { width: 0% }
-  10% { width: 10% }
-  30% { width: 30% }
-  40% { width: 40% }
-  60% { width: 60% }
-  80% { width: 80% }
-  95% { width: 95% }
-  100% { width: 100% }
+  @keyframes zoom-in-zoom-out {
+    0% {
+      transform: scale(1, 1);
+    }
+    50% {
+      transform: scale(1.5, 1.5);
+    }
+    100% {
+      transform: scale(1, 1);
+    }
   }

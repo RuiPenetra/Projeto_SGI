@@ -28,7 +28,7 @@ camera.rotation.set(140, -0.5, -0.072)  //Define a Rotação Inicial da Camara
 //#endregion
 
 const meuCanvas = document.getElementById('meuCanvas')
-const renderer = new THREE.WebGLRenderer({canvas: meuCanvas})
+const renderer = new THREE.WebGLRenderer({canvas: meuCanvas,antialias: true })
 
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement )
@@ -41,6 +41,7 @@ controls.zoomSpeed = 0.4; //Velocidade de Zoom
 controls.target = new THREE.Vector3(0, 5, 0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
 controls.enablePan = false; //Desativa Movimentação da Camara pelo Utilizador
 
+renderer.antialias = true
 renderer.toneMapping = THREE.ACESFilmicToneMapping; //Define o Mapa de Tons
 renderer.toneMappingExposure = 3; 
 //renderer.shadowMap.enabled = true
