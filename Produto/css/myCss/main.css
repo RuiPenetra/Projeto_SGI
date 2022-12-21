@@ -221,6 +221,13 @@ header{
   position:relative;
 }
 
+#canvasDesc{
+  width: 700px;
+  height: 500px;
+  z-index: 2 !important;
+  position:relative;
+}
+
 #meuCanvas:hover{
  /* cursor: url('/Produto/src/icons8-blue-pointer-material-rounded-32.png'),auto; */
   cursor: grab; 
@@ -491,28 +498,34 @@ personalizar/visualizar
 
 
 .load{
-  width: 700px;
-  height: 500px;
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  position: fixed;
   background-color: beige;
-  z-index: 4;
-  display: flex;
+  z-index: 8;
+  display: flex; 
+  /* display: none; */
   justify-content: center;
+  text-align: center;
   align-items: center;
   transition: opacity 0.85s, visibility 0.75s; 
   transition-duration:18s;
 }
 
 .load-hidden{
-  /* opacity: 0; */
-  visibility: hidden;
+  visibility:visible;
 }
+
+.zoom-in-out-box {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  animation: zoom-in-zoom-out 1s ease infinite;
+} 
 
 #myProgress {
   width: 100%;
   background-color: grey;
-  
-  
 }
 
 #myBar {
@@ -544,20 +557,24 @@ personalizar/visualizar
 } */
 
 
+
+/* 
   .zoom-in-out-box {
     margin: 20px;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
     animation: zoom-in-zoom-out 1s ease infinite;
     z-index: 4;
-  }
+  } */
 
-  .text_load{
 
-    width: 100%;
-    display: flex;
-    position: relative;
 
+
+
+  header{
+    z-index: 7 !important;
   }
   
   @keyframes zoom-in-zoom-out {
@@ -570,4 +587,59 @@ personalizar/visualizar
     100% {
       transform: scale(1, 1);
     }
+  }
+
+
+
+
+  #Progress {
+    width: 700px;
+    height: 20px;
+    background-color: #d1d1d1;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    position: fixed;
+    display: block;
+    bottom: 70px;
+    border-radius: 5px;
+    z-index: 2;
+  }
+  
+  #progressBar {
+    width: 0px;
+    height: 20px;
+    background-color: #e7606e;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    position: fixed;
+    display: block;
+    bottom: 70px;
+    border-radius: 5px;
+    z-index: 3;
+  }
+  
+  .progressItem{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    position: fixed;
+    background-color: rgb(179, 179, 179);
+    bottom: 63px;
+    border-radius: 30px;
+    border: 2px solid;
+    border-color: rgb(231, 231, 231);
+    z-index: 3;
+    text-align: center;
+    justify-content: center;
+  }
+
+
+  .text_load{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    bottom: 30px;
   }
