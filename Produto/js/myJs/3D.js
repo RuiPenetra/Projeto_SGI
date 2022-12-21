@@ -1,20 +1,29 @@
 let objAnimated = []
 let objMedidas=[]
+let descMedidas=[]
 let objs_Decor=[]
 let movel=[]
+let movelDesc=[]
 let ANIM_GAVETA = false
 let ANIM_PORTA = false
 let ANIM = false
 let stsMedidas = false
 let stsDecor = true
 let acao1,acao2,acao3
+let OBJ1_LOADING=0
+let OBJ2_LOADING=0
+let progress=0
+let MOVE =true
 
 let obj_Dir_Light
+let obj_Dir_LightDESC
 let obj_Amb_Light
-let RACK,DOOR_LEFT_IN,DOOR_LEFT_OUT,DOOR_RIGHT_IN,DOOR_RIGHT_OUT,DRAWER_UP,DRAWER_DOWN
+let obj_Amb_LightDESC
+
 
 let scene = new THREE.Scene()
-scene.background = new THREE.Color(0xE5E5DA)
+let sceneDesc = new THREE.Scene()
+//scene.background = new THREE.Color(0xE5E5DA)
 
 
 //fov, aspect, near, far
@@ -25,13 +34,21 @@ const far = 100; //Evita o Clipping
 const camera = new THREE.PerspectiveCamera(fov, 700 / 500, near, far); //Cria a Camara
 camera.position.set(-11.167, 7.397, 15.736)  //Define a Posição Inicial da Camara
 camera.rotation.set(140, -0.5, -0.072)  //Define a Rotação Inicial da Camara
+
+const cameraDesc = new THREE.PerspectiveCamera(fov, 700 / 500, near, far); //Cria a Camara
+cameraDesc.position.set(-11.167, 7.397, 15.736)  //Define a Posição Inicial da Camara
+cameraDesc.rotation.set(140, -0.5, -0.072)  //Define a Rotação Inicial da Camara
 //#endregion
 
 const meuCanvas = document.getElementById('meuCanvas')
+const canvasDesc= document.getElementById('canvasDesc')
+
 const renderer = new THREE.WebGLRenderer({canvas: meuCanvas,antialias: true })
+const rendererDesc = new THREE.WebGLRenderer({canvas: canvasDesc,antialias: true })
 
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement )
+//let controlsDesc = new THREE.OrbitControls(cameraDesc, rendererDesc.domElement )
 //controls.enableDamping = true; //Atribui um "Peso" às Rotações
 //controls.autoRotate = true; //Liga a Auto-Rotação da Camara em Torno do Objeto
 //controls.autoRotateSpeed = 0.5; //Atribui a velocidade 0.5 à Auto-Rotação da Camara em Torno do Objeto
@@ -39,24 +56,53 @@ controls.maxDistance = 30; //Maximo Afastamento do Objeto
 controls.minDistance = 10; //Maximo Aproximação do Objeto
 controls.zoomSpeed = 0.4; //Velocidade de Zoom
 controls.target = new THREE.Vector3(0, 5, 0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
-controls.enablePan = false; //Desativa Movimentação da Camara pelo Utilizador
+ //Desativa Movimentação da Camara pelo Utilizador
 
-renderer.antialias = true
+//controlsDesc.enabled = false;
+let controls2 = new THREE.OrbitControls(cameraDesc, rendererDesc.domElement )
+controls2.target = new THREE.Vector3(0,5,0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
+controls2.enableZoom = false
+controls2.enableRotate =false
+
 renderer.toneMapping = THREE.ACESFilmicToneMapping; //Define o Mapa de Tons
 renderer.toneMappingExposure = 3; 
 //renderer.shadowMap.enabled = true
 renderer.setSize(700,500)
 
+rendererDesc.toneMapping = THREE.ACESFilmicToneMapping; //Define o Mapa de Tons
+rendererDesc.toneMappingExposure = 3; 
+//renderer.shadowMap.enabled = true
+rendererDesc.setSize(700,500)
+
 scene.background = new THREE.Color( 0xffffff )
 const pmremGenerator = new THREE.PMREMGenerator( renderer )
 scene.environment = pmremGenerator.fromScene( new THREE.RoomEnvironment(), 0.04 ).texture
 
+sceneDesc.background = new THREE.Color( 0xffffff )
+const pmremGeneratorDesc = new THREE.PMREMGenerator( rendererDesc )
+sceneDesc.environment = pmremGeneratorDesc.fromScene( new THREE.RoomEnvironment(), 0.04 ).texture
+
 camera.position.set( 4, 5, 20)
+cameraDesc.position.set( -13, 9, 15)
+//cameraDesc.position.set( -13, 9, 15)
 
 //LIMITA A VISIBILIDADE INFERIOR
 controls.maxPolarAngle = Math.PI/2
 //LIMITA A VISIBILIDADE SUPERIOR
 controls.minPolarAngle = Math.PI/3
+
+
+let lightAmb = new THREE.AmbientLight( 0xffffff, 1)
+let lightDir = new THREE.DirectionalLight( 0xffffff, 1 )
+lightDir.position.set(2,8,10)
+scene.add( lightAmb );
+scene.add( lightDir )
+
+let lightAmb2 = new THREE.AmbientLight( 0xffffff, 2)
+let lightDir2 = new THREE.DirectionalLight( 0xffffff, 1 )
+lightDir2.position.set(2,8,10) 
+sceneDesc.add( lightDir2 )
+sceneDesc.add( lightAmb2 )
 
 
 
@@ -124,63 +170,67 @@ const matMetal_3 = new THREE.MeshPhysicalMaterial({
     reflectivity:1,
 })
 
+/* const matPano = new THREE.MeshPhysicalMaterial({
+    map: new THREE.TextureLoader().load( "./ficheiro_gltf/textures/Textura pano mesa/Fabric065_1K_Color.jpg" ),
+    side: THREE.DoubleSide,
+    metalness: 0.364,
+    roughness:0,
+    reflectivity:1,
+}) */
+
 new THREE.GLTFLoader().load(
     './ficheiro_gltf/TV_vewV9.gltf',
     function ( gltf ) {
     scene.add( gltf.scene )
-
+    //sceneDesc.add( gltf.scene )
     scene.traverse( function(obj) {
         if (obj.isMesh) {
             //obj.castShadow = true
             //obj.receiveShadow = true			
         }
 
-        console.log(obj)
-        if (obj.type=="DirectionalLight") {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            obj_Dir_Light=obj
-        }
+      
+             //console.log(obj)
+            if (obj.type=="DirectionalLight") {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+                obj_Dir_Light=obj
+                console.log(obj_Dir_Light)
+            }
 
-        
-        if (obj.type=="DirectionalLight") {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            obj_Amb_Light=obj
-        }
-        
-
-        if (obj.name.includes("door") || obj.name.includes("drawer") || obj.name.includes("rack")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-           objAnimated.push(obj)
-        }
-
-        if (obj.name.includes("Cube_") || obj.name.includes("txt_")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-           objMedidas.push(obj)
-        }
-
-        if (obj.name.includes("rack") || obj.name.includes("doorLeft")|| obj.name.includes("doorRight")|| obj.name.includes("drawerUp")|| obj.name.includes("drawerDown")|| obj.name.includes("shelf")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            movel.push(obj)
-        }
-
-        if (obj.name.includes("rack") || obj.name.includes("doorLeft")|| obj.name.includes("doorRight")|| obj.name.includes("drawerUp")|| obj.name.includes("drawerDown")|| obj.name.includes("shelf")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            movel.push(obj)
-        }
-
-        if (obj.name.includes("Decor") || obj.name.includes("Tapete_mesa")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            //console.log(obj)
             
-            objs_Decor.push(obj)
-        }
+            if (obj.type=="AmbientLight") {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+                obj_Amb_Light=obj
+            }
+            
+
+            if (obj.name.includes("door") || obj.name.includes("drawer") || obj.name.includes("rack")) {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+            objAnimated.push(obj)
+            }
+
+            if (obj.name.includes("Cube_") || obj.name.includes("txt_")) {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+                obj.visible=false
+                objMedidas.push(obj)
+                console.log("aqui")
+            }
+
+            if (obj.name.includes("rack") || obj.name.includes("doorLeft")|| obj.name.includes("doorRight")|| obj.name.includes("drawerUp")|| obj.name.includes("drawerDown")|| obj.name.includes("shelf")) {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+                movel.push(obj)
+            }
+
+            if (obj.name.includes("Decor") || obj.name.includes("Tapete_mesa")) {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+                //console.log(obj)
+                
+                objs_Decor.push(obj)
+            }
+
+
         
-
-        //console.log(objAnimated)
-        //console.log(objMedidas)
-
-        changeMaterial("wood1")
-        hideMedidas()
+       
 
         clip1 = THREE.AnimationClip.findByName( gltf.animations, 'doorRightAction')
         clip2 = THREE.AnimationClip.findByName( gltf.animations, 'doorLeftAction.001' )
@@ -191,8 +241,166 @@ new THREE.GLTFLoader().load(
         acao3 = misturador.clipAction(clip3)
 
     })
+},function(xhr){
+    console.log( Math.round(xhr.loaded/xhr.total *100)+ "% loaded   OBJ_2")
+
+    if(Math.round(xhr.loaded/xhr.total *100)<100){
+        
+        loading(Math.round(xhr.loaded/xhr.total *100))
+    }else{
+        OBJ1_LOADING=1
+        loading(Math.round(xhr.loaded/xhr.total *100))
+    }
+
+  /*   if(!((xhr.loaded/xhr.total *100)<100)){
+
+        OBJ1_LOADING=1;
+        loading()
+        
+    } */
+    
+/*     else{
+       // loader.classList.add("load-hidden")
+        //loader.addEventListener("transitionend",() => {
+       //     document.body.removeChild("load")
+        //})
+        console.log(objAnimated)
+        console.log(objMedidas)
+        changeMaterial("wood1")
+        hideMedidas()
+
+    } */
 }
 )
+
+ new THREE.GLTFLoader().load(
+    './ficheiro_gltf/TV_vewV9.gltf',
+    function ( gltf ) {
+    sceneDesc.add( gltf.scene )
+
+
+    sceneDesc.traverse( function(obj2) {
+
+
+        if (obj2.type=="DirectionalLight") {
+            //Se o Objeto for uma Decoração, vai para o Array decor
+            obj_Dir_LightDESC=obj2
+        }
+
+        
+        if (obj2.type=="AmbientLight") {
+            //Se o Objeto for uma Decoração, vai para o Array decor
+            obj_Amb_LightDESC=obj2
+        }
+
+        if (obj2.name.includes("rack") || obj2.name.includes("doorLeft")|| obj2.name.includes("doorRight")|| obj2.name.includes("drawerUp")|| obj2.name.includes("drawerDown")|| obj2.name.includes("shelf")) {
+           movelDesc.push(obj2)
+
+        }
+
+        //Se o Objeto for Cube_ ou txt_, vai para o Array decor
+        if (obj2.name.includes("Cube_") || obj2.name.includes("txt_")) {
+            obj2.visible=false
+        }
+
+        if (obj2.name.includes("Decor") || obj2.name.includes("Tapete_mesa")) {
+            //Se o Objeto for uma Decoração, vai para o Array decor
+            //console.log(obj)
+            
+            obj2.visible=false
+        }
+
+        //changeMaterial("wood1")
+
+        //descMedidas=hideMedidas(descMedidas)
+    })
+},function(xhr){
+    //console.log( Math.round(xhr.loaded/xhr.total *100)+ "% loaded   OBJ_2")
+
+    if(Math.round(xhr.loaded/xhr.total *100)<100){
+        
+        loading(Math.round(xhr.loaded/xhr.total *100))
+    }else{
+        OBJ2_LOADING=1
+        loading(Math.round(xhr.loaded/xhr.total *100))
+    }
+
+}
+) 
+ 
+ function loading(val_obj1){
+
+    progress+=Math.round((val_obj1*3)/80)
+    //document.getElementById("progressBar").textContent=progress
+    document.body.style.overflow="hidden"
+    
+    if(OBJ1_LOADING!=0 && OBJ2_LOADING!=0){
+        
+        
+       // hideMedidas()
+        
+        let width = progress;
+        
+            let i =0
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("progressBar");
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if (width >= 700) {
+                    clearInterval(id);
+                    i = 0;
+                    changeMaterial("wood1")
+                    document.body.style.overflow="visible"
+                    document.querySelector(".load").style.display="none"
+                    } else {
+                    width++;
+                    if(width>100){
+                        document.getElementById("prog_1").style.backgroundColor="#e7606e"
+                        document.getElementById("prog_1").style.color="#ffffff"
+                    }
+                    if(width>400){
+                        document.getElementById("prog_2").style.backgroundColor="#e7606e"
+                        document.getElementById("prog_2").style.color="#ffffff"
+                    }
+
+                    if(width>650){
+                        document.getElementById("prog_3").style.backgroundColor="#e7606e"
+                        document.getElementById("prog_3").style.color="#ffffff"
+                    }
+                    elem.style.width = width + "px";
+                    //elem.innerHTML = width  + "px";
+                    }
+                }
+                }
+
+        //document.getElementById("progressBar").textContent=progress     
+
+    }
+    
+        
+    }
+
+    // falta adicionar o delay para completar a barra pois mesmo que 
+    // os loaders tenham carregadoo com sucesso ainda existe um pequeno delay ate aprecer os objetos
+    //gerar um valor aleatorio entre 10 - 40
+
+/* 
+    if(OBJ1_LOADING !=0 && OBJ2_LOADING !=0){
+        let loader = document.querySelector(".load")
+
+        setTimeout(function(){
+            loader.style.display="none"
+            console.log("fds..........")
+            document.body.style.overflow="visible !important "
+        }, 10000);
+
+    
+        document.body.style.overflow="hidden !important"
+          
+    }
+ 
+} 
 
 /*
 ----------------------------------------------------------------------------------------------------------------------------
@@ -201,59 +409,80 @@ TEXTURAS
 */
 
 function changeMaterial(id){
-    let count = 0
-    while(movel.length>count){
-        switch(id){
-            case "wood1":
-                paintMovel(matWood_1)
-                obj_Dir_Light.intensity=1
-                obj_Amb_Light.intensity=1
-                break
-            case "wood2":
-                paintMovel(matWood_2)
-                obj_Dir_Light.intensity=1
-                obj_Amb_Light.intensity=0.2
-                break
-            case "wood3":
-                paintMovel(matWood_3)
-                obj_Dir_Light.intensity=0.5
-                obj_Amb_Light.intensity=0.2
-                break
-            case "wood4":
-                paintMovel(matWood_4)
-                obj_Dir_Light.intensity=0.5
-                obj_Amb_Light.intensity=0.4
-                break
-            case "metal1":
-                paintMovel(matMetal_1)
-                obj_Dir_Light.intensity=0
-                obj_Amb_Light.intensity=0.5
-                obj_Amb_Light.color= new THREE.Color(0x000000)
-                break
-            case "metal2":
-                paintMovel(matMetal_2)
-                obj_Dir_Light.intensity=0.5
-                obj_Amb_Light.intensity=0.5
-                break
-            case "metal3":
-                paintMovel(matMetal_3)
-                obj_Dir_Light.intensity=0.5
-                obj_Amb_Light.intensity=1
-                break
-    
-        }
-        count++
+
+    switch(id){
+        case "wood1":
+            paintMovel(matWood_1)
+            paintMovelDesc(matWood_1)
+            console.log(obj_Dir_Light)
+            obj_Dir_Light.intensity=1
+            obj_Amb_Light.intensity=1
+            //obj_Dir_LightDESC.intensity=1
+            //obj_Amb_LightDESC.intensity=1
+
+            break
+        case "wood2":
+            paintMovel(matWood_2)
+            //paintMovelDesc(matWood_2)
+            obj_Dir_Light.intensity=1
+            obj_Amb_Light.intensity=0.2
+            //obj_Dir_LightDESC.intensity=1
+            //obj_Amb_LightDESC.intensity=0.2
+            break
+        case "wood3":
+            paintMovel(matWood_3)
+            //paintMovelDesc(matWood_3)
+            obj_Dir_Light.intensity=0.5
+            obj_Amb_Light.intensity=0.2
+            //obj_Dir_LightDESC.intensity=0.5
+           // obj_Amb_LightDESC.intensity=0.2
+            break
+        case "wood4":
+            paintMovel(matWood_4)
+           // paintMovelDesc(matWood_4)
+            obj_Dir_Light.intensity=0.5
+            obj_Amb_Light.intensity=0.4
+           // obj_Dir_LightDESC.intensity=0.5
+            //obj_Amb_LightDESC.intensity=0.4
+            break
+        case "metal1":
+            paintMovel(matMetal_1)
+            //paintMovelDesc(matMetal_1)
+            obj_Dir_Light.intensity=0
+            obj_Amb_Light.intensity=0.5
+            obj_Amb_Light.color= new THREE.Color(0x000000)
+            //obj_Dir_LightDESC.intensity=0
+            //obj_Amb_LightDESC.intensity=0.5
+            //obj_Amb_LightDESC.color= new THREE.Color(0x000000)
+            break
+        case "metal2":
+            paintMovel(matMetal_2)
+            //paintMovelDesc(matMetal_2)
+            obj_Dir_Light.intensity=0.5
+            obj_Amb_Light.intensity=0.5
+            //obj_Dir_LightDESC.intensity=0.5
+            //obj_Amb_LightDESC.intensity=0.5
+            break
+        case "metal3":
+            paintMovel(matMetal_3)
+            //paintMovelDesc(matMetal_3)
+            obj_Dir_Light.intensity=0.5
+            obj_Amb_Light.intensity=1
+            //obj_Dir_LightDESC.intensity=0.5
+            //obj_Amb_LightDESC.intensity=1
+            break
+
     }
+
+    
 }
 
 function paintMovel(mat){
     for(let i=0; i<movel.length;i++){
-        if(movel[i].name=="doorLeft"){
+        if(movel[i].name=="doorLeft" ||movel[i].name=="drawerUp"||movel[i].name=="drawerUp"){
             movel[i].children[0].material=mat
         }else if(movel[i].name=="doorRight" || movel[i].name=="drawerDown"){
             movel[i].children[1].material=mat
-        }else if(movel[i].name=="drawerUp"){
-            movel[i].children[0].material=mat
         }else{
             movel[i].material=mat
         }        
@@ -261,7 +490,20 @@ function paintMovel(mat){
 
 }
 
+function paintMovelDesc(mat){
+    for(let i=0; i<movelDesc.length;i++){
+        if(movelDesc[i].name=="doorLeft" ||movelDesc[i].name=="drawerUp"||movelDesc[i].name=="drawerUp"){
 
+            movelDesc[i].children[0].material=mat
+        }else if(movelDesc[i].name=="doorRight" || movelDesc[i].name=="drawerDown"){
+            movelDesc[i].children[1].material=mat
+        }else{
+            movelDesc[i].material=mat
+
+        }        
+    }
+
+}
 
 addLights()
 animate()
@@ -286,6 +528,13 @@ TIPOS DE VISTA
 
 document.getElementById("crItem_Vist_port").addEventListener("click",function(){
     ANIM=true
+
+    if(MOVE != true){
+        controls.enableZoom = true
+        controls.enableRotate = true
+        MOVE = true
+    }
+
     if(stsMedidas!=false){
         hideMedidas()
     }
@@ -302,6 +551,12 @@ document.getElementById("crItem_Vist_port").addEventListener("click",function(){
 
 
 document.getElementById("crItem_Vist_gav").addEventListener("click",function(){
+    if(MOVE != true){
+        controls.enableZoom = true
+        controls.enableRotate = true
+        MOVE = true
+        camera.position.set( 4, 5, 20)
+    }
     ANIM=true
 
     if(stsMedidas!=false){
@@ -322,29 +577,55 @@ document.getElementById("crItem_Vist_gav").addEventListener("click",function(){
 
 document.getElementById("crItem_Vist_scale").addEventListener("click",function(){
     //Vist_Normal_VAL=false
-    ANIM=false
-  /*   camera.position.z=7
-    camera.position.y=8
-    camera.position.x=-4
-    camera.zoom=5 */
-    //camera.lookat(0,4,0)
+    //controls.target = new THREE.Vector3(0,5,0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
+    camera.position.set( -13, 9, 15)
+    if(MOVE != false){
+        controls.enableZoom = false
+        controls.enableRotate = false
+        MOVE = false
+    }
 
+    //Desativar inputs por parte do utilizador (sem animações)
+    ANIM=false
+
+    //Verificar se a gaveta se enquantra aberta, caso esteja, fecha a gaveta
     if(ANIM_GAVETA!=false){
         fecharGaveta()
     }
+    
+    //Verificar se as portas se enquantram abertas, caso esteja, fecha a gaveta
     if(ANIM_PORTA!=false){
         fecharPortas()
     }
 
+    //desativar decorações caso estejam visiveis
     disableDecor()
+    
+    //mostrar medidas
     showMedidas()
 })
 
 document.getElementById("crItem_Vist_normal").addEventListener("click",function(){
   
     Vist_Normal_VAL=true
+    ANIM=true
+    
+
+    if(MOVE != true){
+        controls.enableZoom = true
+        controls.enableRotate = true
+        MOVE = true
+        //camera.position.set( 4, 5, 20)
+        controls.target = new THREE.Vector3(4,5,20); 
+    }
+
+
+    if(stsMedidas==true){
+        hideMedidas()
+    }
+
     enableDecor()
-    hideMedidas()
+    
 
     if(ANIM_GAVETA!=false){
         fecharGaveta()
@@ -372,9 +653,9 @@ event.preventDefault();
   mouse.y = - ( ( event.clientY - rect.top ) / ( rect.bottom - rect.top) ) * 2 + 1;
 
 
-    //if(ANIM!=false){
+    if(ANIM!=false){
         catchFirst()//identifica o Primeiro Objeto em 
-    //}
+    }
 }
 
 function catchFirst(){
@@ -437,8 +718,10 @@ function hideMedidas(){
         //console.log(objMedidas[i])
         objMedidas[i].visible= false
     }
+    //console.log(objMedidas)
     stsMedidas= false
-   
+
+  
 }
 
 function showMedidas(){
@@ -466,6 +749,20 @@ function abrirPortas(){
     ANIM_PORTA =true
 }
 
+
+/* function moveBlock(){
+
+
+    if(MOVE != true){
+        controls.enableZoom = false
+        controls.enableRotate = false
+        MOVE = true
+    }else{
+        controls.enableZoom = true
+        controls.enableRotate = true
+        MOVE= false
+    }
+} */
 /*
 ----------------------------------------------------------------------------------------------------------------------------
 DECOR
@@ -473,7 +770,8 @@ DECOR
 */
 
 function disableDecor(){
-    console.log(objs_Decor)
+    
+    console.log("aquiii no DISdecor")
     for(let j=0;j<objs_Decor.length;j++){
         objs_Decor[j].visible=false
     }
@@ -509,8 +807,6 @@ ANIMAÇÕES
 */
 
 function fecharPortas(){
-    console.log("entrei")
-
     acao1.paused = false;
     acao2.paused = false;
     acao1.timeScale = -0.5
@@ -547,17 +843,25 @@ function animate() {
     requestAnimationFrame( animate )
     controls.update()
     renderer.render( scene, camera )
+    rendererDesc.render( sceneDesc, cameraDesc )
     misturador.update( relogio.getDelta() )
 }
 
 function addLights(){
     //MEtal
-    const lightAmb = new THREE.AmbientLight( 0xffffff, 1)
-    scene.add( lightAmb );
-    const lightDir = new THREE.DirectionalLight( 0xffffff, 1 )
+/*     let lightAmb = new THREE.AmbientLight( 0xffffff, 1)
+    let lightDir = new THREE.DirectionalLight( 0xffffff, 1 )
     lightDir.position.set(2,8,10)
+    scene.add( lightAmb );
+    scene.add( lightDir )
+
+    let lightAmb2 = new THREE.AmbientLight( 0xffffff, 2)
+    let lightDir2 = new THREE.DirectionalLight( 0xffffff, 1 )
+    lightDir2.position.set(2,8,10) 
+    sceneDesc.add( lightDir2 )
+    sceneDesc.add( lightAmb2 ) */
     //const dlHelper,dlHelper1 = new THREE.DirectionalLightHelper(lightDir, 1, 0xFF0000)
     //scene.add(dlHelper);
-    scene.add( lightDir );
+  
    // sceneDesc.add( lightDir1 );
 }

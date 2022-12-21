@@ -126,11 +126,10 @@ btn_quant_decre.addEventListener("click",function(){
     }
 })
 
-window.addEventListener("load",() =>{
+/* window.addEventListener("load",() =>{
     const loader = document.querySelector(".load");
 
     loader.classList.add("load-hidden");
-
 
     loader.addEventListener("transitionend",() => {
         document.body.removeChild("loader");
@@ -155,4 +154,5 @@ function move() {
       }
     }
   }
-}
+} */
+
