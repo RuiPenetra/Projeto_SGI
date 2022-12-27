@@ -180,7 +180,7 @@ const matMetal_3 = new THREE.MeshPhysicalMaterial({
 }) */
 
 new THREE.GLTFLoader().load(
-    './ficheiro_gltf/TV_vewV9.gltf',
+    './ficheiro_gltf/TV_vewV10.gltf',
     function ( gltf ) {
     scene.add( gltf.scene )
     //sceneDesc.add( gltf.scene )
@@ -274,7 +274,7 @@ new THREE.GLTFLoader().load(
 })
 
  new THREE.GLTFLoader().load(
-    './ficheiro_gltf/TV_vewV9.gltf',
+    './ficheiro_gltf/TV_vewV10.gltf',
     function ( gltf ) {
     sceneDesc.add( gltf.scene )
 
