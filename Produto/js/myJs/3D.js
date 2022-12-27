@@ -6,7 +6,7 @@ let movel=[]
 let movelDesc=[]
 let ANIM_GAVETA = false
 let ANIM_PORTA = false
-let ANIM = false
+let ANIM = true
 let stsMedidas = false
 let stsDecor = true
 let acao1,acao2,acao3
@@ -113,6 +113,7 @@ ANIMAÇÕES
 */
 let relogio = new THREE.Clock(scene)
 let misturador = new THREE.AnimationMixer(scene)
+
 /*---------------------------------------------*/
 
 
@@ -270,8 +271,7 @@ new THREE.GLTFLoader().load(
         hideMedidas()
 
     } */
-}
-)
+})
 
  new THREE.GLTFLoader().load(
     './ficheiro_gltf/TV_vewV9.gltf',
@@ -516,10 +516,6 @@ animate()
 //   };
 
 
-
-
-
-
 /*
 ----------------------------------------------------------------------------------------------------------------------------
 TIPOS DE VISTA
@@ -527,16 +523,9 @@ TIPOS DE VISTA
 */
 
 document.getElementById("crItem_Vist_port").addEventListener("click",function(){
-    ANIM=true
 
     if(MOVE != true){
-        controls.enableZoom = true
-        controls.enableRotate = true
-        MOVE = true
-    }
-
-    if(stsMedidas!=false){
-        hideMedidas()
+        restoreMove()
     }
 
     if(ANIM_GAVETA==true){
@@ -551,16 +540,9 @@ document.getElementById("crItem_Vist_port").addEventListener("click",function(){
 
 
 document.getElementById("crItem_Vist_gav").addEventListener("click",function(){
-    if(MOVE != true){
-        controls.enableZoom = true
-        controls.enableRotate = true
-        MOVE = true
-        camera.position.set( 4, 5, 20)
-    }
-    ANIM=true
 
-    if(stsMedidas!=false){
-        hideMedidas()
+    if(MOVE != true){
+        restoreMove()
     }
 
     if(ANIM_PORTA==true){
@@ -576,9 +558,9 @@ document.getElementById("crItem_Vist_gav").addEventListener("click",function(){
  
 
 document.getElementById("crItem_Vist_scale").addEventListener("click",function(){
-    //Vist_Normal_VAL=false
-    //controls.target = new THREE.Vector3(0,5,0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
+
     camera.position.set( -13, 9, 15)
+
     if(MOVE != false){
         controls.enableZoom = false
         controls.enableRotate = false
@@ -607,26 +589,12 @@ document.getElementById("crItem_Vist_scale").addEventListener("click",function()
 
 document.getElementById("crItem_Vist_normal").addEventListener("click",function(){
   
-    Vist_Normal_VAL=true
-    ANIM=true
-    
-
     if(MOVE != true){
-        controls.enableZoom = true
-        controls.enableRotate = true
-        MOVE = true
-        //camera.position.set( 4, 5, 20)
-        controls.target = new THREE.Vector3(4,5,20); 
-    }
-
-
-    if(stsMedidas==true){
-        hideMedidas()
+        restoreMove()
     }
 
     enableDecor()
     
-
     if(ANIM_GAVETA!=false){
         fecharGaveta()
     }
@@ -637,13 +605,14 @@ document.getElementById("crItem_Vist_normal").addEventListener("click",function(
  
 })
 
-
-
+/*
+----------------------------------------------------------------------------------------------------------------------------
+INTERAÇÃO COM O MOVEL
+----------------------------------------------------------------------------------------------------------------------------
+*/
    
 let mouse = new THREE.Vector2()
 let raycaster = new THREE.Raycaster()
-let oldMaterialOUT,oldMaterialIN
-
 
 
 document.getElementById("meuCanvas").onclick = function (event) {
@@ -682,7 +651,7 @@ function catchFirst(){
             DOOR_LEFT_IN.material = mouseSelected
             DOOR_RIGHT_OUT.material = mouseSelected
             DOOR_RIGHT_IN.material = mouseSelected */
-            if(ANIM_PORTA!=true){
+            if(ANIM_PORTA!=true && ANIM_GAVETA!=true){
                 abrirPortas()
                 //setTimeout(function(){ fecharPortas()}, 5000);
             }else{
@@ -691,10 +660,8 @@ function catchFirst(){
                     
         }
 
-        console.log(intersectedObject.parent)
-
         if(intersectedObject.parent.name.includes("drawerUp")){
-            if(ANIM_GAVETA!=true){
+            if(ANIM_GAVETA!=true && ANIM_PORTA!=true){
                 abrirGaveta()
                 setTimeout(function(){ fecharGaveta()}, 5000)
             }else{
@@ -703,9 +670,6 @@ function catchFirst(){
         }   
     }
 }
-
-
-
 
 
 /*
@@ -733,21 +697,7 @@ function showMedidas(){
 
 }
 
-function abrirPortas(){
-    acao1.reset()
-    acao2.reset()
-    acao1.setLoop(THREE.LoopOnce)
-    acao2.setLoop(THREE.LoopOnce)
-    acao1.timeScale = 0.5;
-    acao2.timeScale = 0.5;
-    acao1.clampWhenFinished = true
-    acao2.clampWhenFinished = true
 
-    acao1.play()
-    acao2.play()
-
-    ANIM_PORTA =true
-}
 
 
 /* function moveBlock(){
@@ -805,6 +755,39 @@ document.getElementById("btn_decor").addEventListener("click",function(){
 ANIMAÇÕES
 ----------------------------------------------------------------------------------------------------------------------------
 */
+
+
+function restoreMove(){
+
+    if(stsMedidas!=false){
+        hideMedidas()
+    }
+
+    controls.enableZoom = true
+    controls.enableRotate = true
+    controls.target = new THREE.Vector3(0, 5, 0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
+    camera.position.set( 4, 5, 20)
+    MOVE = true
+    ANIM = true
+
+}
+
+
+function abrirPortas(){
+    acao1.reset()
+    acao2.reset()
+    acao1.setLoop(THREE.LoopOnce)
+    acao2.setLoop(THREE.LoopOnce)
+    acao1.timeScale = 0.5;
+    acao2.timeScale = 0.5;
+    acao1.clampWhenFinished = true
+    acao2.clampWhenFinished = true
+
+    acao1.play()
+    acao2.play()
+
+    ANIM_PORTA =true
+}
 
 function fecharPortas(){
     acao1.paused = false;

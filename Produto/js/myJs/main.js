@@ -106,6 +106,23 @@ for(let j =0; j< items_vist.length; j++){
 } 
 
 
+//ACTIVE => VISUALIZAÇÃO, FRENTE, ATRAS ..........
+let items_vist2 = document.getElementsByClassName("btn_viewTYPE")
+
+for(let k =0; k< items_vist2.length; k++){
+    items_vist2[k].addEventListener("click",function(){    
+        let current = document.getElementsByClassName("btn_viewTYPE_ACTIVE")   
+        console.log("==>"+current)
+         if(current[0]!=null){
+            current[0].className= current[0].className.replace("btn_viewTYPE_ACTIVE","")
+            
+        } 
+        this.className = "btn_viewTYPE btn_viewTYPE_ACTIVE"
+    })
+} 
+
+
+
 
 let btn_quant_incre = document.getElementById("btn_quant_incre")
 let btn_quant_decre = document.getElementById("btn_quant_decre")
@@ -113,14 +130,12 @@ let input_quant = document.getElementById("input_quant")
 
 
 btn_quant_incre.addEventListener("click",function(){
-    console.log("ola")
     input_quant.value= parseInt(input_quant.value) +1
-    
+   
 })
 
 
 btn_quant_decre.addEventListener("click",function(){
-
     if(input_quant.value > 1){
         input_quant.value= parseInt(input_quant.value) -1
     }

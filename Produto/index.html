@@ -215,7 +215,7 @@
                                         <a class="header__linksFeatured" href="https://www.laredoute.pt/b2b.aspx"
                                             title="La Redoute for Business" data-cerberus="header_open-featured">
                                             <span class="header__linksIcon"><i></i></span>
-                                            La Redoute for Business
+                                            La Redoute para Empresas
                                         </a>
                                     </li>
                                 </ul>
@@ -470,9 +470,9 @@
                             <div class="lr-container main-product-container pdp-block">
                                 <div class="row">
                                 
-                                    <div class="col-xs-12 col-sm-7 col-lg-8 ">
+                                    <div class="col-xs-12 col-sm-7 col-lg-8 " style="height: auto;">
 
-                                        <div class="row fix-carousel">
+                                        <div class="row fix-carousel" >
                                             <div id="pdpCarouselContainer_350271833" class="mainMedia prod-img-container">
                                                 <div class="mainMedia_imageContainer" style="padding:0%; z-index: 1">
                                                   
@@ -546,17 +546,19 @@
 
                                             </div>
                                         </div>
-                                        <div id="helper_container" class=" col-md-12">
-                                            <div class="col-md-12" style="padding:5px; margin-top:5px;">
-                                                <img id="helper_img_title" src="./src/info.svg">
-                                                <span id="helper_title" > 
+                                        <div id="helper_container">
+                                            <div id="helper_title">
+                                                    <img id="helper_img_title" src="./src/info.svg"/> 
+                                                    
                                                     TIPO DE VISTA
-                                                </span>
                                             </div>
-                                            <div class="col-md-2">
-                                                <img id="helper_img_content" src="./src/view_3d.png">
+                                            <div style="display: flex;">
+                                                  <img id="helper_img_content" src="./src/view_3d.png">
+                                                <div id="helper_content">
+                                                    
+                                                </div> 
                                             </div>
-                                            <div id="helper_content" class="col-md-10"></div>
+                                          
                                                                                 <!--  <img src="" alt="">-->
                                         
                                             
@@ -573,7 +575,7 @@
                                                 class="pdp-brand extended-area" data-cerberus="txt_pdp_productBrand1">
                                                 
                                                 <div id="productRatingClickZone">
-                                                    <span id="pdpBrand_350271833">LA REDOUTE INTERIEURS </span>
+                                                    <span id="pdpBrand_350271833">LA REDOUTE INTERIORES</span>
                                                     <div role="button" tabindex="0" id="productRatingTitle" style="float: right;">
                                                         
                                                         <div class="rating-stars-container"
@@ -716,10 +718,18 @@
                                             </div>
                                             <span id="customTitle">Visualizar</span>
                                             <div id="customContent">
-                                                <button>Frente</button>
-                                                <button>Atrás</button>
-                                                <button>Esquerda</button>
-                                                <button>Direita</button>
+                                                <button class="btn_viewTYPE">
+                                                    <img width="20px" style="margin-right: 5px;" src="./src/side.svg">Frente</img>  
+                                                </button>
+                                                <button class="btn_viewTYPE">
+                                                    <img width="20px" style="margin-right: 5px;" src="./src/side.svg">Atrás</img>  
+                                                </button>
+                                                <button class="btn_viewTYPE">
+                                                    <img width="20px" style="margin-right: 5px;" src="./src/side.svg">L.Esquerdo<img>  
+                                                </button>
+                                                <button class="btn_viewTYPE">
+                                                    <img width="20px" style="margin-right: 5px;" src="./src/side.svg">L.Direito<img>  
+                                                </button>
 
                                             </div>
                                         </div>
@@ -913,7 +923,7 @@
                                 </div>
                                 </div>
 
-                            <div id="pdpDescription" class="lr-container catalog-block"  style="margin-top: 80px;">
+                            <div id="pdpDescription" class="lr-container catalog-block"  style="margin-top: 180px;">
                                 <div class="pdp-subtitle" id="productDescriptionHeading">
                                     Descrição do artigo
                                 </div>
