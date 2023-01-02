@@ -11,9 +11,11 @@ let stsMedidas = false
 let stsDecor = true
 let acao1,acao2,acao3
 let OBJ1_LOADING=0
-let OBJ2_LOADING=0
-let progress=0
+let OBJ2_LOADING=2
 let MOVE =true
+let LOADING=0
+let progress=0
+
 
 let obj_Dir_Light
 let obj_Dir_LightDESC
@@ -49,14 +51,14 @@ const rendererDesc = new THREE.WebGLRenderer({canvas: canvasDesc,antialias: true
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement )
 //let controlsDesc = new THREE.OrbitControls(cameraDesc, rendererDesc.domElement )
-//controls.enableDamping = true; //Atribui um "Peso" às Rotações
+controls.enableDamping = true; //Atribui um "Peso" às Rotações
 //controls.autoRotate = true; //Liga a Auto-Rotação da Camara em Torno do Objeto
 //controls.autoRotateSpeed = 0.5; //Atribui a velocidade 0.5 à Auto-Rotação da Camara em Torno do Objeto
 controls.maxDistance = 30; //Maximo Afastamento do Objeto
 controls.minDistance = 10; //Maximo Aproximação do Objeto
 controls.zoomSpeed = 0.4; //Velocidade de Zoom
 controls.target = new THREE.Vector3(0, 5, 0); //Desloca a Camara para a Posição Ideal à Vista de Decoração
- //Desativa Movimentação da Camara pelo Utilizador
+controls.enablePan = false; //Desativa Movimentação da Camara pelo Utilizador
 
 //controlsDesc.enabled = false;
 let controls2 = new THREE.OrbitControls(cameraDesc, rendererDesc.domElement )
@@ -116,6 +118,18 @@ let misturador = new THREE.AnimationMixer(scene)
 
 /*---------------------------------------------*/
 
+let glassBlack 
+
+const glassWhite = new THREE.MeshPhysicalMaterial({
+    metalness: 1.0,
+    roughness: 0.2,
+    transparent: true,
+    opacity: 0.5,
+    transmission: 0.1,
+    side: THREE.FrontSide,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.39,
+  });
 
 const matWood_1 = new THREE.MeshPhongMaterial({
     map: new THREE.TextureLoader().load( "./ficheiro_gltf/textures/madeira/text_1.png" ),
@@ -171,6 +185,17 @@ const matMetal_3 = new THREE.MeshPhysicalMaterial({
     reflectivity:1,
 })
 
+
+/* let texture =new THREE.TextureLoader().load('./ficheiro_gltf/textures/decoracoes/moldura/moldura_interior2.jpg')
+texture.center = new THREE.Vector2(0.5, 0.5);
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+texture.repeat.x = - 1;
+
+const imgMod = new THREE.MeshBasicMaterial({
+    map: texture,
+  }); */
+
 /* const matPano = new THREE.MeshPhysicalMaterial({
     map: new THREE.TextureLoader().load( "./ficheiro_gltf/textures/Textura pano mesa/Fabric065_1K_Color.jpg" ),
     side: THREE.DoubleSide,
@@ -178,10 +203,46 @@ const matMetal_3 = new THREE.MeshPhysicalMaterial({
     roughness:0,
     reflectivity:1,
 }) */
+let Progress = document.getElementById("Progress")
+let progBar = document.getElementById("progressBar")
 
-new THREE.GLTFLoader().load(
-    './ficheiro_gltf/TV_vewV10.gltf',
-    function ( gltf ) {
+//-------------------------------------------------
+//LOAD OBJ_1
+//-------------------------------------------------
+const manager_OB1 = new THREE.LoadingManager();
+
+manager_OB1.onStart = function ( url, itemsLoaded, itemsTotal ) {
+
+	console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    document.body.style.overflow="hidden"
+};
+
+manager_OB1.onLoad = function ( ) {
+
+    OBJ1_LOADING=1
+	console.log("Loading OBJ_1 completed")
+    OBJ2_LOADING=0
+    carregar_OB2()
+
+};
+
+manager_OB1.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+
+	console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    let value = Math.round((itemsLoaded/itemsTotal *100)/2)
+    //if(value<50){
+    console.log("==> OBJ [1] " + value + "%")
+    progressBar(value)
+    //}
+}
+
+manager_OB1.onError = function ( url ) {
+
+	console.log( 'There was an error loading ' + url )
+}
+
+const loader_OB1 = new THREE.GLTFLoader( manager_OB1 );
+loader_OB1.load( './ficheiro_gltf/TV_vewV10.gltf', function ( gltf ) {
     scene.add( gltf.scene )
     //sceneDesc.add( gltf.scene )
     scene.traverse( function(obj) {
@@ -189,25 +250,23 @@ new THREE.GLTFLoader().load(
             //obj.castShadow = true
             //obj.receiveShadow = true			
         }
-
-      
-             //console.log(obj)
+                //console.log(obj)
             if (obj.type=="DirectionalLight") {
-                //Se o Objeto for uma Decoração, vai para o Array decor
+                //Se o Objeto for DirectionalLight
                 obj_Dir_Light=obj
                 console.log(obj_Dir_Light)
             }
 
             
             if (obj.type=="AmbientLight") {
-                //Se o Objeto for uma Decoração, vai para o Array decor
+                //Se o Objeto for AmbientLight
                 obj_Amb_Light=obj
             }
             
 
             if (obj.name.includes("door") || obj.name.includes("drawer") || obj.name.includes("rack")) {
-                //Se o Objeto for uma Decoração, vai para o Array decor
-            objAnimated.push(obj)
+                //Todos os objetos que se pretende animar
+                objAnimated.push(obj)
             }
 
             if (obj.name.includes("Cube_") || obj.name.includes("txt_")) {
@@ -224,14 +283,20 @@ new THREE.GLTFLoader().load(
 
             if (obj.name.includes("Decor") || obj.name.includes("Tapete_mesa")) {
                 //Se o Objeto for uma Decoração, vai para o Array decor
-                //console.log(obj)
-                
+                // if(obj.name.includes("DecorOut_moldura")){
+                    //  obj.children[2].material= imgMod
+                // }
+
                 objs_Decor.push(obj)
             }
 
 
-        
-       
+            if (obj.name.includes("doorLeft")){
+                //Recolher o material da parte interior da porta
+                glassBlack=obj.children[2].material
+
+            }
+
 
         clip1 = THREE.AnimationClip.findByName( gltf.animations, 'doorRightAction')
         clip2 = THREE.AnimationClip.findByName( gltf.animations, 'doorLeftAction.001' )
@@ -242,165 +307,90 @@ new THREE.GLTFLoader().load(
         acao3 = misturador.clipAction(clip3)
 
     })
-},function(xhr){
-    console.log( Math.round(xhr.loaded/xhr.total *100)+ "% loaded   OBJ_2")
-
-    if(Math.round(xhr.loaded/xhr.total *100)<100){
-        
-        loading(Math.round(xhr.loaded/xhr.total *100))
-    }else{
-        OBJ1_LOADING=1
-        loading(Math.round(xhr.loaded/xhr.total *100))
-    }
-
-  /*   if(!((xhr.loaded/xhr.total *100)<100)){
-
-        OBJ1_LOADING=1;
-        loading()
-        
-    } */
-    
-/*     else{
-       // loader.classList.add("load-hidden")
-        //loader.addEventListener("transitionend",() => {
-       //     document.body.removeChild("load")
-        //})
-        console.log(objAnimated)
-        console.log(objMedidas)
-        changeMaterial("wood1")
-        hideMedidas()
-
-    } */
 })
 
- new THREE.GLTFLoader().load(
-    './ficheiro_gltf/TV_vewV10.gltf',
-    function ( gltf ) {
-    sceneDesc.add( gltf.scene )
+//-------------------------------------------------
+//LOAD OBJ_1
+//-------------------------------------------------
+function carregar_OB2(){
+    const manager_OB2 = new THREE.LoadingManager();
 
+    manager_OB2.onStart = function ( url, itemsLoaded, itemsTotal ) {
 
-    sceneDesc.traverse( function(obj2) {
+        console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    };
 
-
-        if (obj2.type=="DirectionalLight") {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            obj_Dir_LightDESC=obj2
-        }
+    manager_OB2.onLoad = function ( ) {
 
         
-        if (obj2.type=="AmbientLight") {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            obj_Amb_LightDESC=obj2
-        }
-
-        if (obj2.name.includes("rack") || obj2.name.includes("doorLeft")|| obj2.name.includes("doorRight")|| obj2.name.includes("drawerUp")|| obj2.name.includes("drawerDown")|| obj2.name.includes("shelf")) {
-           movelDesc.push(obj2)
-
-        }
-
-        //Se o Objeto for Cube_ ou txt_, vai para o Array decor
-        if (obj2.name.includes("Cube_") || obj2.name.includes("txt_")) {
-            obj2.visible=false
-        }
-
-        if (obj2.name.includes("Decor") || obj2.name.includes("Tapete_mesa")) {
-            //Se o Objeto for uma Decoração, vai para o Array decor
-            //console.log(obj)
-            
-            obj2.visible=false
-        }
-
-        //changeMaterial("wood1")
-
-        //descMedidas=hideMedidas(descMedidas)
-    })
-},function(xhr){
-    //console.log( Math.round(xhr.loaded/xhr.total *100)+ "% loaded   OBJ_2")
-
-    if(Math.round(xhr.loaded/xhr.total *100)<100){
-        
-        loading(Math.round(xhr.loaded/xhr.total *100))
-    }else{
+        console.log("Loading OBJ_2 completed")
+        //Desabilitar o progress OBJ2
         OBJ2_LOADING=1
-        loading(Math.round(xhr.loaded/xhr.total *100))
+        //Carregar o resto que falta e esconder
+        changeMaterial('MOVEL',"wood1")
+        document.body.style.overflow="visible"
+        document.querySelector(".load").style.display="none"
+        //changeMaterial('MOVEL',"wood1")
+       // document.body.style.overflow="visible"
+        //document.querySelector(".load").style.display="none"
+    };
+
+    manager_OB2.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+
+        console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+        let value = Math.round((itemsLoaded/itemsTotal *100)/2)
+       // if(value<50){
+           console.log("==> OBJ [2] " + value + "%") 
+           console.log("==>OBJ1_LOADING" + OBJ1_LOADING) 
+        progressBar(value)
+        
+       // }
     }
+
+    manager_OB2.onError = function ( url ) {
+
+        console.log( 'There was an error loading ' + url )
+    }
+
+    const loader_OB2 = new THREE.GLTFLoader( manager_OB2 );
+    loader_OB2.load( './ficheiro_gltf/TV_vewV10.gltf', function ( gltf ) {
+        sceneDesc.add( gltf.scene )
+        sceneDesc.traverse( function(obj2) {
+            //Se o Objeto for Cube_ ou txt_, vai para o Array decor
+            if (obj2.name.includes("Cube_") || obj2.name.includes("txt_")) {
+                obj2.visible=false
+            }
+
+            if (obj2.name.includes("Decor") || obj2.name.includes("Tapete_mesa")) {
+                //Se o Objeto for uma Decoração, vai para o Array decor
+                //console.log(obj)    
+                obj2.visible=false
+            }
+        })
+    })
+
 
 }
-) 
- 
- function loading(val_obj1){
 
-    progress+=Math.round((val_obj1*3)/80)
-    //document.getElementById("progressBar").textContent=progress
-    document.body.style.overflow="hidden"
-    
-    if(OBJ1_LOADING!=0 && OBJ2_LOADING!=0){
-        
-        
-       // hideMedidas()
-        
-        let width = progress;
-        
-            let i =0
-            if (i == 0) {
-                i = 1;
-                var elem = document.getElementById("progressBar");
-                var id = setInterval(frame, 10);
-                function frame() {
-                    if (width >= 700) {
-                    clearInterval(id);
-                    i = 0;
-                    changeMaterial("wood1")
-                    document.body.style.overflow="visible"
-                    document.querySelector(".load").style.display="none"
-                    } else {
-                    width++;
-                    if(width>100){
-                        document.getElementById("prog_1").style.backgroundColor="#e7606e"
-                        document.getElementById("prog_1").style.color="#ffffff"
-                    }
-                    if(width>400){
-                        document.getElementById("prog_2").style.backgroundColor="#e7606e"
-                        document.getElementById("prog_2").style.color="#ffffff"
-                    }
 
-                    if(width>650){
-                        document.getElementById("prog_3").style.backgroundColor="#e7606e"
-                        document.getElementById("prog_3").style.color="#ffffff"
-                    }
-                    elem.style.width = width + "px";
-                    //elem.innerHTML = width  + "px";
-                    }
-                }
-                }
+ function progressBar(value){
 
-        //document.getElementById("progressBar").textContent=progress     
-
-    }
-    
-        
+    //Loading OBJ1
+    if(OBJ1_LOADING==0){
+        progress = value
+        progBar.style.width = progress + "%"
+        //Progress.innerHTML=progress+ "%"
     }
 
-    // falta adicionar o delay para completar a barra pois mesmo que 
-    // os loaders tenham carregadoo com sucesso ainda existe um pequeno delay ate aprecer os objetos
-    //gerar um valor aleatorio entre 10 - 40
 
-/* 
-    if(OBJ1_LOADING !=0 && OBJ2_LOADING !=0){
-        let loader = document.querySelector(".load")
-
-        setTimeout(function(){
-            loader.style.display="none"
-            console.log("fds..........")
-            document.body.style.overflow="visible !important "
-        }, 10000);
-
-    
-        document.body.style.overflow="hidden !important"
-          
+    //Loading OBJ2
+    if(OBJ2_LOADING==0){
+        progress = parseInt(progress + value) 
+        console.log("load2"+progress)
+        progBar.style.width = progress + "%"
+       // Progress.innerHTML=progress+ "%"
     }
- 
-} 
+}
 
 /*
 ----------------------------------------------------------------------------------------------------------------------------
@@ -408,102 +398,113 @@ TEXTURAS
 ----------------------------------------------------------------------------------------------------------------------------
 */
 
-function changeMaterial(id){
+function changeMaterial(FLAG,id){
 
-    switch(id){
-        case "wood1":
-            paintMovel(matWood_1)
-            paintMovelDesc(matWood_1)
-            console.log(obj_Dir_Light)
-            obj_Dir_Light.intensity=1
-            obj_Amb_Light.intensity=1
-            //obj_Dir_LightDESC.intensity=1
-            //obj_Amb_LightDESC.intensity=1
-
-            break
-        case "wood2":
-            paintMovel(matWood_2)
-            //paintMovelDesc(matWood_2)
-            obj_Dir_Light.intensity=1
-            obj_Amb_Light.intensity=0.2
-            //obj_Dir_LightDESC.intensity=1
-            //obj_Amb_LightDESC.intensity=0.2
-            break
-        case "wood3":
-            paintMovel(matWood_3)
-            //paintMovelDesc(matWood_3)
-            obj_Dir_Light.intensity=0.5
-            obj_Amb_Light.intensity=0.2
-            //obj_Dir_LightDESC.intensity=0.5
-           // obj_Amb_LightDESC.intensity=0.2
-            break
-        case "wood4":
-            paintMovel(matWood_4)
-           // paintMovelDesc(matWood_4)
-            obj_Dir_Light.intensity=0.5
-            obj_Amb_Light.intensity=0.4
-           // obj_Dir_LightDESC.intensity=0.5
-            //obj_Amb_LightDESC.intensity=0.4
-            break
-        case "metal1":
-            paintMovel(matMetal_1)
-            //paintMovelDesc(matMetal_1)
-            obj_Dir_Light.intensity=0
-            obj_Amb_Light.intensity=0.5
-            obj_Amb_Light.color= new THREE.Color(0x000000)
-            //obj_Dir_LightDESC.intensity=0
-            //obj_Amb_LightDESC.intensity=0.5
-            //obj_Amb_LightDESC.color= new THREE.Color(0x000000)
-            break
-        case "metal2":
-            paintMovel(matMetal_2)
-            //paintMovelDesc(matMetal_2)
-            obj_Dir_Light.intensity=0.5
-            obj_Amb_Light.intensity=0.5
-            //obj_Dir_LightDESC.intensity=0.5
-            //obj_Amb_LightDESC.intensity=0.5
-            break
-        case "metal3":
-            paintMovel(matMetal_3)
-            //paintMovelDesc(matMetal_3)
-            obj_Dir_Light.intensity=0.5
-            obj_Amb_Light.intensity=1
-            //obj_Dir_LightDESC.intensity=0.5
-            //obj_Amb_LightDESC.intensity=1
-            break
-
+    //MUDAR O MATERIAL DO MOVEL COMPLETO
+    if(FLAG=="MOVEL"){
+        switch(id){
+            case "wood1":
+                paintMovel(FLAG,matWood_1)
+                //paintMovelDesc(matWood_1)
+                //console.log(obj_Dir_Light)
+                obj_Dir_Light.intensity=1
+                obj_Amb_Light.intensity=1
+                //obj_Dir_LightDESC.intensity=1
+                //obj_Amb_LightDESC.intensity=1
+    
+                break
+            case "wood2":
+                paintMovel(FLAG,matWood_2)
+                //paintMovelDesc(matWood_2)
+                obj_Dir_Light.intensity=1
+                obj_Amb_Light.intensity=0.2
+                //obj_Dir_LightDESC.intensity=1
+                //obj_Amb_LightDESC.intensity=0.2
+                break
+            case "wood3":
+                paintMovel(FLAG,matWood_3)
+                //paintMovelDesc(matWood_3)
+                obj_Dir_Light.intensity=0.5
+                obj_Amb_Light.intensity=0.2
+                //obj_Dir_LightDESC.intensity=0.5
+               // obj_Amb_LightDESC.intensity=0.2
+                break
+            case "wood4":
+                paintMovel(FLAG,matWood_4)
+               // paintMovelDesc(matWood_4)
+                obj_Dir_Light.intensity=0.5
+                obj_Amb_Light.intensity=0.4
+               // obj_Dir_LightDESC.intensity=0.5
+                //obj_Amb_LightDESC.intensity=0.4
+                break
+            case "metal1":
+                paintMovel(FLAG,matMetal_1)
+                //paintMovelDesc(matMetal_1)
+                obj_Dir_Light.intensity=0
+                obj_Amb_Light.intensity=0.5
+                //obj_Amb_Light.color= new THREE.Color(0x000000)
+                //obj_Dir_LightDESC.intensity=0
+                //obj_Amb_LightDESC.intensity=0.5
+                //obj_Amb_LightDESC.color= new THREE.Color(0x000000)
+                break
+            case "metal2":
+                paintMovel(FLAG,matMetal_2)
+                //paintMovelDesc(matMetal_2)
+                obj_Dir_Light.intensity=0.5
+                obj_Amb_Light.intensity=0.5
+                //obj_Dir_LightDESC.intensity=0.5
+                //obj_Amb_LightDESC.intensity=0.5
+                break
+            case "metal3":
+                paintMovel(FLAG,matMetal_3)
+                //paintMovelDesc(matMetal_3)
+                obj_Dir_Light.intensity=0.5
+                obj_Amb_Light.intensity=1
+                //obj_Dir_LightDESC.intensity=0.5
+                //obj_Amb_LightDESC.intensity=1
+                break
+    
+        }
     }
+
+    if(FLAG=="DOOR"){
+        switch(id){
+            case "glassWhite":
+                paintMovel(FLAG,glassWhite)
+                break
+            case "glassBlack":
+                paintMovel(FLAG,glassBlack)
+                break
+        }
+    }
+
 
     
 }
 
-function paintMovel(mat){
+
+function paintMovel(FLAG,mat){
     for(let i=0; i<movel.length;i++){
-        if(movel[i].name=="doorLeft" ||movel[i].name=="drawerUp"||movel[i].name=="drawerUp"){
-            movel[i].children[0].material=mat
-        }else if(movel[i].name=="doorRight" || movel[i].name=="drawerDown"){
-            movel[i].children[1].material=mat
+
+        if(FLAG=="MOVEL"){
+            if(movel[i].name=="doorLeft" ||movel[i].name=="drawerUp"||movel[i].name=="drawerUp"){
+                movel[i].children[0].material=mat
+            }else if(movel[i].name=="doorRight" || movel[i].name=="drawerDown"){
+                movel[i].children[1].material=mat
+            }else{
+                movel[i].material=mat
+            } 
         }else{
-            movel[i].material=mat
-        }        
+            if(movel[i].name=="doorLeft"){
+                movel[i].children[2].material=mat
+            }else if(movel[i].name=="doorRight" ){
+                movel[i].children[2].material=mat
+            }
+        }      
     }
 
 }
 
-function paintMovelDesc(mat){
-    for(let i=0; i<movelDesc.length;i++){
-        if(movelDesc[i].name=="doorLeft" ||movelDesc[i].name=="drawerUp"||movelDesc[i].name=="drawerUp"){
-
-            movelDesc[i].children[0].material=mat
-        }else if(movelDesc[i].name=="doorRight" || movelDesc[i].name=="drawerDown"){
-            movelDesc[i].children[1].material=mat
-        }else{
-            movelDesc[i].material=mat
-
-        }        
-    }
-
-}
 
 addLights()
 animate()
@@ -645,15 +646,8 @@ function catchFirst(){
         
         if(intersectedObject.parent.name.includes("doorRight")){
 
-        /*       oldMaterialOUT= DOOR_LEFT_OUT.material
-            oldMaterialIN= DOOR_LEFT_IN.material
-            DOOR_LEFT_OUT.material = mouseSelected
-            DOOR_LEFT_IN.material = mouseSelected
-            DOOR_RIGHT_OUT.material = mouseSelected
-            DOOR_RIGHT_IN.material = mouseSelected */
             if(ANIM_PORTA!=true && ANIM_GAVETA!=true){
                 abrirPortas()
-                //setTimeout(function(){ fecharPortas()}, 5000);
             }else{
                 fecharPortas()
             }
@@ -689,9 +683,10 @@ function hideMedidas(){
 }
 
 function showMedidas(){
+
     for(let i=0;i<8;i++){
         objMedidas[i].visible= true
-        objMedidas[i].material.color= new THREE.Color("red")
+        objMedidas[i].material.color= new THREE.Color("black")
     }
     stsMedidas= true
 
@@ -809,6 +804,7 @@ function abrirGaveta(){
     //hideobjMedidas()
     acao3.play()
     ANIM_GAVETA=true
+    ANIM_PORTA=FALSE
 }
 
 function fecharGaveta(){

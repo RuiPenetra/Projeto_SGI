@@ -8,6 +8,7 @@ let btn_tip_mad = document.getElementById("btn_tipo_madeira")
 let btn_tip_met = document.getElementById("btn_tipo_metal")
 
 let items_mat = document.getElementsByClassName("item_mat")
+let items_door = document.getElementsByClassName("mat_door")
 let current
 
 let helper_img = [ 
@@ -85,6 +86,21 @@ for(let i =0; i< items_mat.length; i++){
     })
 } 
 
+
+//ACTIVE => MATERIAL INTERIOR DAS PORTAS
+
+for(let i =0; i< items_door.length; i++){
+    items_door[i].addEventListener("click",function(){     
+        let current_door = document.getElementById("item_check2")   
+        items_door[i].appendChild(current_door)
+        //console.log(items_mat[i])
+        //current.remove()
+         //if(current.length > 0){
+        //current[0].className = current[0].className.replace("item-active","")
+        //}
+        //this.className += " item-active"
+    })
+} 
 
 //TIPOS DE VISTAS (ACTIVE, HELPER)
 let list_vist = document.getElementById("list_vistas")

@@ -108,13 +108,10 @@
         </br>
            
            <!-- <div id="Progress"> -->
-
             <div id="Progress">
                 <div id="progressBar"></div>
+                <!-- <span id="progressPercent"></span> -->
             </div>
-            <div id="prog_1" class="progressItem" style="left:580px "><h4>1</h2></div>
-            <div id="prog_2" class="progressItem"><h4>2</h2></div>
-            <div id="prog_3" class="progressItem" style="right:580px"><h4>3</h2></div>
             <div class="text_load">Estamos a preparar o seu Movel...</div> 
           <!-- </div> -->
     </div>   
@@ -646,36 +643,61 @@
                                                     </div>
                                                     <div id="list_mat_madeira" >
                                                         <div class="tooltip-mv">
-                                                            <button id="btn_mad_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_1.png')" onclick="changeMaterial('wood1')"><img id="item_check" src="./src/check.png" alt=""></button>
+                                                            <button id="btn_mad_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_1.png')" onclick="changeMaterial('MOVEL','wood1')"><img id="item_check" src="./src/check.png" alt=""></button>
                                                                 <span class="tooltip-mvtext">TEXTURA 0</span>
                                                         </div> 
                                                         <div class="tooltip-mv"> 
-                                                            <button id="btn_mad_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_2.jpg')" onclick="changeMaterial('wood2')"></button>
+                                                            <button id="btn_mad_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_2.jpg')" onclick="changeMaterial('MOVEL','wood2')"></button>
                                                             <span class="tooltip-mvtext">TEXTURA 1</span>
                                                         </div> 
                                                         <div class="tooltip-mv">
-                                                            <button id="btn_mad_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_3.png')" onclick="changeMaterial('wood3')"></button>
+                                                            <button id="btn_mad_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_3.png')" onclick="changeMaterial('MOVEL','wood3')"></button>
                                                             <span class="tooltip-mvtext">TEXTURA 3</span>
                                                         </div>
                                                             <div class="tooltip-mv">
-                                                            <button id="btn_mad_4" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_4.png')" onclick="changeMaterial('wood4')"></button>
+                                                            <button id="btn_mad_4" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_4.png')" onclick="changeMaterial('MOVEL','wood4')"></button>
                                                             <span class="tooltip-mvtext">TEXTURA 5</span>
                                                         </div>
                                                     </div>
                                                     <div id="list_mat_metal">
                                                         <div class="tooltip-mv">
-                                                            <button id="btn_met_1" class="item_mat"  style="background-image:url('./ficheiro_gltf/textures/metal/metal_1.png')" onclick="changeMaterial('metal1')"></button>
+                                                            <button id="btn_met_1" class="item_mat"  style="background-image:url('./ficheiro_gltf/textures/metal/metal_1.png')" onclick="changeMaterial('MOVEL','metal1')"></button>
                                                             <span class="tooltip-mvtext">TEXTURA 12</span>
                                                         </div>
                                                         <div class="tooltip-mv">
-                                                            <button id="btn_met_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/metal_2.png')" onclick="changeMaterial('metal2')"></button>
+                                                            <button id="btn_met_2" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/metal_2.png')" onclick="changeMaterial('MOVEL','metal2')"></button>
                                                             <span class="tooltip-mvtext">TEXTURA 13</span>
                                                         </div>
                                                         <div class="tooltip-mv">
-                                                            <button id="btn_met_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/metal_3.png')" onclick="changeMaterial('metal3')"></button>
+                                                            <button id="btn_met_3" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/metal/metal_3.png')" onclick="changeMaterial('MOVEL','metal3')"></button>
                                                             <span class="tooltip-mvtext">TEXTURA 14</span>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                    <div class="topic">
+                                                        <div>
+                                                            <img src="./src/door_texture.svg" class="ico_textura" alt="" style="position: relative; width: 30px; height: 30px;">
+                                                            <b>Porta:</b>
+                                                        </div>
+                                                        <div id="list_mat_door" >
+                                                            <div class="tooltip-mv">
+                                                                <button id="btn_door_1" class="mat_door" style="background-color:#464646" onclick="changeMaterial('DOOR','glassBlack')"><img id="item_check2" src="./src/check.png" alt=""></button>
+                                                                    <span class="tooltip-mvtext">Vidro Escuro</span>
+                                                            </div> 
+                                                            <div class="tooltip-mv"> 
+                                                                <button id="btn_door_2" class="mat_door" style="background-color:#d4d4d4cb" onclick="changeMaterial('DOOR','glassWhite')"></button>
+                                                                <span class="tooltip-mvtext">Vidro Claro</span>
+                                                            </div> 
+                                                   <!--          <div class="tooltip-mv">
+                                                                <button id="btn_door_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_3.png')" onclick="changeMatDoor('wood3')"></button>
+                                                                <span class="tooltip-mvtext">Madeira</span>
+                                                            </div>
+                                                                <div class="tooltip-mv">
+                                                                <button id="btn_door_1" class="item_mat" style="background-image:url('./ficheiro_gltf/textures/madeira/text_4.png')" onclick="changeMatDoor('wood4')"></button>
+                                                                <span class="tooltip-mvtext">TEXTURA 5</span>
+                                                            </div> -->
+                                                        </div>
+                                                    
                                                 </div>
                                             <!--     <div class="topic">
                                                     <div>

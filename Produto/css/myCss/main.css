@@ -47,8 +47,16 @@
   z-index: 1;
   display: block;
   position: relative;
-  /* position: relative; */
+}
 
+
+.mat_door{
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+  z-index: 1;
+  display: block;
+  position: relative;
 }
 /* 
 .alert_anim{
@@ -72,6 +80,14 @@ header{
 } */
 
 #item_check{
+  margin-bottom: -30px;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  position: relative;
+}
+
+#item_check2{
   margin-bottom: -30px;
   width: 20px;
   height: 20px;
@@ -502,6 +518,13 @@ personalizar/visualizar
   margin-left: 20px;
 }
 
+#list_mat_door{
+  margin-top: 5px; 
+  position: relative;
+  display: flex;
+  margin-left: 20px;
+}
+
 #list_mat_metal{
   margin-top: 5px; 
   position: relative;
@@ -534,8 +557,8 @@ personalizar/visualizar
   position: fixed;
   background-color: beige;
   z-index: 8;
-  display: flex; 
-  /*display: none; */ 
+ display: flex;
+  /* display: none;  */ 
   justify-content: center;
   text-align: center;
   align-items: center;
@@ -624,13 +647,12 @@ personalizar/visualizar
 
 
   #Progress {
-    width: 700px;
+    width: 100%;
     height: 20px;
     background-color: #d1d1d1;
     text-align: center;
-    line-height: 40px;
-    color: white;
-    position: fixed;
+    color: rgb(39, 39, 39);
+    position: absolute;
     display: block;
     bottom: 70px;
     border-radius: 5px;
@@ -638,26 +660,21 @@ personalizar/visualizar
   }
   
   #progressBar {
-    width: 0px;
+    width: 0%;
     height: 20px;
     background-color: #e7606e;
-    text-align: center;
-    line-height: 40px;
     color: white;
-    position: fixed;
+    position: relative;
     display: block;
-    bottom: 70px;
     border-radius: 5px;
-    z-index: 3;
   }
   
   .progressItem{
     width: 40px;
     height: 40px;
-    display: flex;
-    position: fixed;
+    display: block;
+    position: absolute;
     background-color: rgb(179, 179, 179);
-    bottom: 63px;
     border-radius: 30px;
     border: 2px solid;
     border-color: rgb(231, 231, 231);
