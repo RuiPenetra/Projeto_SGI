@@ -15,6 +15,7 @@ let OBJ2_LOADING=2
 let MOVE =true
 let LOADING=0
 let progress=0
+let count
 
 
 let obj_Dir_Light
@@ -229,10 +230,10 @@ manager_OB1.onLoad = function ( ) {
 manager_OB1.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
 	console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-    let value = Math.round((itemsLoaded/itemsTotal *100)/2)
     //if(value<50){
-    console.log("==> OBJ [1] " + value + "%")
-    progressBar(value)
+    //console.log("==> OBJ [1] " + value + "%")
+    
+    progressBar(itemsLoaded,itemsTotal)
     //}
 }
 
@@ -326,10 +327,12 @@ function carregar_OB2(){
         console.log("Loading OBJ_2 completed")
         //Desabilitar o progress OBJ2
         OBJ2_LOADING=1
-        //Carregar o resto que falta e esconder
-        changeMaterial('MOVEL',"wood1")
-        document.body.style.overflow="visible"
-        document.querySelector(".load").style.display="none"
+
+
+        setTimeout(function(){finishLoagind()}, 3000)
+
+
+
         //changeMaterial('MOVEL',"wood1")
        // document.body.style.overflow="visible"
         //document.querySelector(".load").style.display="none"
@@ -338,11 +341,10 @@ function carregar_OB2(){
     manager_OB2.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
         console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-        let value = Math.round((itemsLoaded/itemsTotal *100)/2)
+        //let value = Math.round((itemsLoaded/itemsTotal *100)/2)
        // if(value<50){
-           console.log("==> OBJ [2] " + value + "%") 
            console.log("==>OBJ1_LOADING" + OBJ1_LOADING) 
-        progressBar(value)
+        progressBar(itemsLoaded,itemsTotal)
         
        // }
     }
@@ -373,25 +375,49 @@ function carregar_OB2(){
 }
 
 
- function progressBar(value){
+ function progressBar(value_1,value_2){
 
+
+    //guardar a valor carregado para nao se perder
+    let value=Math.round((value_1/value_2 *100)/2)
+    let text_progress=document.getElementById("text_progress")
+    console.log("VALUE: "+value)
+
+    
     //Loading OBJ1
-    if(OBJ1_LOADING==0){
-        progress = value
+    if(!OBJ1_LOADING){
+        progress=value
         progBar.style.width = progress + "%"
         //Progress.innerHTML=progress+ "%"
+        text_progress.textContent=progress+ "%"
+    }else if(!OBJ2_LOADING){
+        
+        count= progress + value
+        progBar.style.width = count + "%"
+        text_progress.textContent=count+ "%"
+        
     }
+    
 
-
-    //Loading OBJ2
-    if(OBJ2_LOADING==0){
-        progress = parseInt(progress + value) 
-        console.log("load2"+progress)
-        progBar.style.width = progress + "%"
-       // Progress.innerHTML=progress+ "%"
-    }
 }
 
+
+function finishLoagind(){
+    //Carregar o resto que falta e esconder
+    changeMaterial('MOVEL',"wood1")
+    let logo=document.getElementById("zoom-in-zoom-out")
+  
+    logo.style.display="none"
+    document.getElementById("text_load").style.visible="hidden"
+
+    document.getElementById("Progress").style.display="none"
+    let teste = document.getElementById("loading")
+    teste.className =teste.className.replace("load","")
+    teste.className+= "load-hidden"
+    
+    //teste.style.visibility="none"
+    document.body.style.overflow="visible"
+}
 /*
 ----------------------------------------------------------------------------------------------------------------------------
 TEXTURAS
@@ -405,63 +431,38 @@ function changeMaterial(FLAG,id){
         switch(id){
             case "wood1":
                 paintMovel(FLAG,matWood_1)
-                //paintMovelDesc(matWood_1)
-                //console.log(obj_Dir_Light)
                 obj_Dir_Light.intensity=1
                 obj_Amb_Light.intensity=1
-                //obj_Dir_LightDESC.intensity=1
-                //obj_Amb_LightDESC.intensity=1
-    
                 break
             case "wood2":
                 paintMovel(FLAG,matWood_2)
-                //paintMovelDesc(matWood_2)
                 obj_Dir_Light.intensity=1
                 obj_Amb_Light.intensity=0.2
-                //obj_Dir_LightDESC.intensity=1
-                //obj_Amb_LightDESC.intensity=0.2
                 break
             case "wood3":
                 paintMovel(FLAG,matWood_3)
-                //paintMovelDesc(matWood_3)
                 obj_Dir_Light.intensity=0.5
                 obj_Amb_Light.intensity=0.2
-                //obj_Dir_LightDESC.intensity=0.5
-               // obj_Amb_LightDESC.intensity=0.2
                 break
             case "wood4":
                 paintMovel(FLAG,matWood_4)
-               // paintMovelDesc(matWood_4)
                 obj_Dir_Light.intensity=0.5
                 obj_Amb_Light.intensity=0.4
-               // obj_Dir_LightDESC.intensity=0.5
-                //obj_Amb_LightDESC.intensity=0.4
                 break
             case "metal1":
                 paintMovel(FLAG,matMetal_1)
-                //paintMovelDesc(matMetal_1)
                 obj_Dir_Light.intensity=0
-                obj_Amb_Light.intensity=0.5
-                //obj_Amb_Light.color= new THREE.Color(0x000000)
-                //obj_Dir_LightDESC.intensity=0
-                //obj_Amb_LightDESC.intensity=0.5
-                //obj_Amb_LightDESC.color= new THREE.Color(0x000000)
+                obj_Amb_Light.intensity=0.54
                 break
             case "metal2":
                 paintMovel(FLAG,matMetal_2)
-                //paintMovelDesc(matMetal_2)
                 obj_Dir_Light.intensity=0.5
                 obj_Amb_Light.intensity=0.5
-                //obj_Dir_LightDESC.intensity=0.5
-                //obj_Amb_LightDESC.intensity=0.5
                 break
             case "metal3":
                 paintMovel(FLAG,matMetal_3)
-                //paintMovelDesc(matMetal_3)
                 obj_Dir_Light.intensity=0.5
                 obj_Amb_Light.intensity=1
-                //obj_Dir_LightDESC.intensity=0.5
-                //obj_Amb_LightDESC.intensity=1
                 break
     
         }
@@ -584,9 +585,30 @@ document.getElementById("crItem_Vist_scale").addEventListener("click",function()
     //desativar decorações caso estejam visiveis
     disableDecor()
     
+
+
+
     //mostrar medidas
     showMedidas()
 })
+
+
+function toggle(displayState){
+    var elements = document.getElementsByClassName("DisplayBlock")
+
+    for (var i = 0; i < elements.length; i++){
+        elements[i].style.display = displayState;
+    }
+
+    var elements_2 = document.getElementsByClassName("DisplayBlockVIEWS")
+
+    for (var i = 0; i < elements_2.length; i++){
+        elements_2[i].style.display = displayState;
+    }
+}
+
+
+toggle('none') // hides
 
 document.getElementById("crItem_Vist_normal").addEventListener("click",function(){
   
@@ -602,6 +624,48 @@ document.getElementById("crItem_Vist_normal").addEventListener("click",function(
     if(ANIM_PORTA!=false){
         fecharPortas()
     }
+
+ 
+})
+
+
+document.getElementById("btn_viewFront").addEventListener("click",function(){
+
+    //Desativar inputs por parte do utilizador (sem animações)
+    ANIM=false
+    //<X> , <Y> , <Z>
+    camera.position.set(0,5,18)
+
+ 
+})
+
+document.getElementById("btn_viewBack").addEventListener("click",function(){
+
+    //Desativar inputs por parte do utilizador (sem animações)
+    ANIM=false
+    //<X> , <Y> , <Z>
+    camera.position.set(0,5,-18)
+
+ 
+})
+
+
+document.getElementById("btn_viewLeft").addEventListener("click",function(){
+
+    //Desativar inputs por parte do utilizador (sem animações)
+    ANIM=false
+    //<X> , <Y> , <Z>
+    camera.position.set(-22,5,0)
+
+ 
+})
+
+document.getElementById("btn_viewRight").addEventListener("click",function(){
+
+    //Desativar inputs por parte do utilizador (sem animações)
+    ANIM=false
+    //<X> , <Y> , <Z>
+    camera.position.set(22,5,0)
 
  
 })
@@ -678,7 +742,9 @@ function hideMedidas(){
     }
     //console.log(objMedidas)
     stsMedidas= false
-
+    document.getElementById("customize").style.pointerEvents="auto"
+    document.getElementById("sizeMovel").style.display="none"
+    toggle('none') // Shows
   
 }
 
@@ -690,6 +756,10 @@ function showMedidas(){
     }
     stsMedidas= true
 
+    document.getElementById("customize").style.pointerEvents="none"
+    document.getElementById("sizeMovel").style.display="block"
+    
+    toggle( 'block'); // hide
 }
 
 
@@ -844,3 +914,4 @@ function addLights(){
   
    // sceneDesc.add( lightDir1 );
 }
+

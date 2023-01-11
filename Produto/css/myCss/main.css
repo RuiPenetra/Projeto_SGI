@@ -126,6 +126,7 @@ header{
     padding: 5px;
     color:transparent;
     list-style-type: none;
+    z-index: 6;
 
   }
   
@@ -141,14 +142,55 @@ header{
     
     /* Position the tooltip */
     position: absolute;
-    z-index: 3;
+    z-index: 5;
     bottom: 100%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -60px; 
   }
   
   .tooltip-mv:hover .tooltip-mvtext {
     visibility: visible;
+    
+  }
+
+
+  .tooltip-VIEWS{
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    color:transparent;
+    list-style-type: none;
+    z-index: 6;
+
+  }
+  
+
+  .tooltip-VIEWS  .tooltip-VIEWS-mvtext {
+    visibility: hidden;
+    width: auto;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+  /*   position: absolute;
+    z-index: 5;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px; */
+
+    position: absolute;
+    z-index: 5;
+    left: 100%;
+    margin-right: 60px;
+    bottom: 30%;
+  }
+  
+  .tooltip-VIEWS:hover .tooltip-VIEWS-mvtext {
+    visibility: visible;
+    
   }
 
 
@@ -376,6 +418,23 @@ header{
   z-index: 3;
 }
 
+#sizeMovel{
+  background-color: rgb(0, 0, 0);
+  width: 140px;
+  height: 30px;
+  padding: 7px;
+  border-radius: 25px;
+  position:relative;
+  z-index: 3;
+  top: 50px;
+  left: 250px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+}
+
+
 #btn_decor:hover{
   background-color: #8d8d8d;
 }
@@ -533,44 +592,80 @@ personalizar/visualizar
 }
 
 .btn_viewTYPE{
-  padding: 4px;
-  background-color: #ebebeb;
-  padding: 10px;
+  width: 80px;
+  height: 60px;
   border-radius: 10px;
-  align-items: center;
-  justify-content: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
 }
 
 .btn_viewTYPE:hover{
-  background-color: #000000;
-  color: #ffffff;
+  border: 2px solid black;
 }
 
 .btn_viewTYPE_ACTIVE{
-  background-color: #000000;
-  color: #ffffff;
+  border: 2px solid black;
+}
+
+.DisplayBlock{
+  display: none;
+  position: absolute;
+  margin-top: -44px;
+  margin-left: -3px;
+  z-index: 4;
+}
+
+.DisplayBlock svg{
+  transform: rotate(-45deg);
+  fill: #f50505;
+}
+
+
+.DisplayBlockVIEWS{
+  display: none;
+  position: absolute;
+  margin-top: -55px;
+  margin-left: 15px;
+  z-index: 4;
+}
+
+.DisplayBlockVIEWS svg{
+  transform: rotate(-35deg);
+  fill: #f50505;
 }
 
 .load{
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: beige;
+  background-color: #f5f5dc;
   z-index: 8;
- display: flex;
+  display: flex;
   /* display: none;  */ 
   justify-content: center;
   text-align: center;
   align-items: center;
-  transition: opacity 0.85s, visibility 0.75s; 
-  transition-duration:18s;
+  opacity: 1;
 }
 
 .load-hidden{
-  visibility:visible;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: #f5f5dc;
+  z-index: 8;
+ display: none;
+  /* display: none;  */ 
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  visibility: hidden;
+  animation-name: opt;
+  animation-duration: 4s;
 }
 
-.zoom-in-out-box {
+#zoom-in-zoom-out {
   width: 100px;
   height: 100px;
   position: absolute;
@@ -643,16 +738,31 @@ personalizar/visualizar
     }
   }
 
+  @keyframes opt {
+    0% {
+      opacity: 0.8;
+      visibility: visible;
+    }
+    50% {
+      opacity: 0.5;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+      visibility: visible;
+    }
+    
+  }
 
 
 
   #Progress {
-    width: 100%;
+    width: 500px;
     height: 20px;
     background-color: #d1d1d1;
     text-align: center;
     color: rgb(39, 39, 39);
-    position: absolute;
+    position: fixed;
     display: block;
     bottom: 70px;
     border-radius: 5px;
@@ -660,12 +770,12 @@ personalizar/visualizar
   }
   
   #progressBar {
-    width: 0%;
+    width: 15%;
     height: 20px;
     background-color: #e7606e;
     color: white;
     position: relative;
-    display: block;
+    display: flex;
     border-radius: 5px;
   }
   
@@ -684,10 +794,30 @@ personalizar/visualizar
   }
 
 
-  .text_load{
+  #text_load{
     width: 100%;
     display: flex;
     position: absolute;
     justify-content: center;
     bottom: 30px;
+  }
+
+  #text_progress{
+    width: auto;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    bottom: 90px;
+  }
+
+
+  #block{
+    background-color: rgba(0, 0, 0, 0.275);
+    height: 100px;
+    position: relative;
+    display: flex;
+    z-index: 7;
+    margin: 0px;
+    bottom: -100px;
+
   }

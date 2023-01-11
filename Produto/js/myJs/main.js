@@ -20,9 +20,9 @@ let helper_img = [
 
 let helper_info = [ 
     "Nesta vista é possivel visualizar o produto em 3d podendo visualizar o produto em diversas prespetivas. Para poder rodar o movél apenas é necessário precionar com o rato no movél e arrastar para o lado que pretende visualizar o movel ",
-    "Nesta vista apenas é possivel visualizar o interior do movel por pela porta podendo consultar o interior",
-    "Nesta vista apenas é possivel visualizar o interior do movel por pela gaveta podendo consultar o interior",
-    "Nesta vista apenas é possivel consultar as medidas  do móvel"
+    "Nesta vista apenas é possivel visualizar o interior do movel por pela porta podendo consultar o interior\n Para abrir a porta como fechar pode clickar no mesmo botão como também pode usar o cursor do rato para abrir ou fechar",
+    "Nesta vista apenas é possivel visualizar o interior do movel por pela gaveta podendo consultar o interior\n Para abrir a gaveta como fechar pode clickar no mesmo botão como também pode usar o cursor do rato para abrir ou fechar",
+    "Nesta vista apenas é possivel consultar as medidas do móvel"
 ]
 
 btn_tip_mad.addEventListener("click",function(){
