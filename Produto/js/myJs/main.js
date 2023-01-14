@@ -34,7 +34,6 @@ btn_tip_mad.addEventListener("click",function(){
     list_MD.style.display = 'flex';
     focus =0
     
-    console.log(list_MD)
 
 })
 
@@ -47,7 +46,6 @@ btn_tip_met.addEventListener("click",function(){
     list_MT.style.display = 'flex';
     focus = 1
     
-    console.log(list_MT)
 })
 
 let hp_content = document.getElementById("helper_content")
@@ -56,7 +54,6 @@ let hp_img_content = document.getElementById("helper_img_content")
 
 
 //INICIALIZAR INFO HELPER 
-console.log(hp_content)
 hp_content.textContent=helper_info[0]
 hp_title.textContent="Vista Normal"
 
@@ -77,12 +74,7 @@ for(let i =0; i< items_mat.length; i++){
     items_mat[i].addEventListener("click",function(){     
         current = document.getElementById("item_check")   
         items_mat[i].appendChild(current)
-        console.log(items_mat[i])
-        //current.remove()
-         //if(current.length > 0){
-        //current[0].className = current[0].className.replace("item-active","")
-        //}
-        //this.className += " item-active"
+    
     })
 } 
 
@@ -93,12 +85,7 @@ for(let i =0; i< items_door.length; i++){
     items_door[i].addEventListener("click",function(){     
         let current_door = document.getElementById("item_check2")   
         items_door[i].appendChild(current_door)
-        //console.log(items_mat[i])
-        //current.remove()
-         //if(current.length > 0){
-        //current[0].className = current[0].className.replace("item-active","")
-        //}
-        //this.className += " item-active"
+
     })
 } 
 
@@ -128,7 +115,7 @@ let items_vist2 = document.getElementsByClassName("btn_viewTYPE")
 for(let k =0; k< items_vist2.length; k++){
     items_vist2[k].addEventListener("click",function(){    
         let current = document.getElementsByClassName("btn_viewTYPE_ACTIVE")   
-        console.log("==>"+current)
+
          if(current[0]!=null){
             current[0].className= current[0].className.replace("btn_viewTYPE_ACTIVE","")
             
@@ -156,34 +143,3 @@ btn_quant_decre.addEventListener("click",function(){
         input_quant.value= parseInt(input_quant.value) -1
     }
 })
-
-/* window.addEventListener("load",() =>{
-    const loader = document.querySelector(".load");
-
-    loader.classList.add("load-hidden");
-
-    loader.addEventListener("transitionend",() => {
-        document.body.removeChild("loader");
-    })
-})
-
-
-var i = 0;
-function move() {
-  if (i == 0) {
-    i = 1;
-    var elem = document.getElementById("myBar");
-    var width = 1;
-    var id = setInterval(frame, 10);
-    function frame() {
-      if (width >= 100) {
-        clearInterval(id);
-        i = 0;
-      } else {
-        width++;
-        elem.style.width = width + "%";
-      }
-    }
-  }
-} */
-

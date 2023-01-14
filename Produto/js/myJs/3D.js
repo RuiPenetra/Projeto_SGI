@@ -230,11 +230,10 @@ manager_OB1.onLoad = function ( ) {
 manager_OB1.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
 	console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-    //if(value<50){
-    //console.log("==> OBJ [1] " + value + "%")
+
     
     progressBar(itemsLoaded,itemsTotal)
-    //}
+
 }
 
 manager_OB1.onError = function ( url ) {
@@ -251,11 +250,11 @@ loader_OB1.load( './ficheiro_gltf/TV_vewV10.gltf', function ( gltf ) {
             //obj.castShadow = true
             //obj.receiveShadow = true			
         }
-                //console.log(obj)
+              
             if (obj.type=="DirectionalLight") {
                 //Se o Objeto for DirectionalLight
                 obj_Dir_Light=obj
-                console.log(obj_Dir_Light)
+    
             }
 
             
@@ -274,7 +273,7 @@ loader_OB1.load( './ficheiro_gltf/TV_vewV10.gltf', function ( gltf ) {
                 //Se o Objeto for uma Decoração, vai para o Array decor
                 obj.visible=false
                 objMedidas.push(obj)
-                console.log("aqui")
+        
             }
 
             if (obj.name.includes("rack") || obj.name.includes("doorLeft")|| obj.name.includes("doorRight")|| obj.name.includes("drawerUp")|| obj.name.includes("drawerDown")|| obj.name.includes("shelf")) {
@@ -302,7 +301,7 @@ loader_OB1.load( './ficheiro_gltf/TV_vewV10.gltf', function ( gltf ) {
         clip1 = THREE.AnimationClip.findByName( gltf.animations, 'doorRightAction')
         clip2 = THREE.AnimationClip.findByName( gltf.animations, 'doorLeftAction.001' )
         clip3 = THREE.AnimationClip.findByName( gltf.animations, 'drawerUp' ) 
-        //console.log(clip1)
+   
         acao1 = misturador.clipAction(clip1)
         acao2 = misturador.clipAction(clip2)
         acao3 = misturador.clipAction(clip3)
@@ -332,21 +331,16 @@ function carregar_OB2(){
         setTimeout(function(){finishLoagind()}, 3000)
 
 
-
-        //changeMaterial('MOVEL',"wood1")
-       // document.body.style.overflow="visible"
-        //document.querySelector(".load").style.display="none"
     };
 
     manager_OB2.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
         console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-        //let value = Math.round((itemsLoaded/itemsTotal *100)/2)
-       // if(value<50){
+   
            console.log("==>OBJ1_LOADING" + OBJ1_LOADING) 
         progressBar(itemsLoaded,itemsTotal)
         
-       // }
+      
     }
 
     manager_OB2.onError = function ( url ) {
@@ -365,7 +359,7 @@ function carregar_OB2(){
 
             if (obj2.name.includes("Decor") || obj2.name.includes("Tapete_mesa")) {
                 //Se o Objeto for uma Decoração, vai para o Array decor
-                //console.log(obj)    
+                  
                 obj2.visible=false
             }
         })
@@ -381,14 +375,12 @@ function carregar_OB2(){
     //guardar a valor carregado para nao se perder
     let value=Math.round((value_1/value_2 *100)/2)
     let text_progress=document.getElementById("text_progress")
-    console.log("VALUE: "+value)
 
     
     //Loading OBJ1
     if(!OBJ1_LOADING){
         progress=value
         progBar.style.width = progress + "%"
-        //Progress.innerHTML=progress+ "%"
         text_progress.textContent=progress+ "%"
     }else if(!OBJ2_LOADING){
         
@@ -631,8 +623,7 @@ document.getElementById("crItem_Vist_normal").addEventListener("click",function(
 
 document.getElementById("btn_viewFront").addEventListener("click",function(){
 
-    //Desativar inputs por parte do utilizador (sem animações)
-    ANIM=false
+    
     //<X> , <Y> , <Z>
     camera.position.set(0,5,18)
 
@@ -641,8 +632,7 @@ document.getElementById("btn_viewFront").addEventListener("click",function(){
 
 document.getElementById("btn_viewBack").addEventListener("click",function(){
 
-    //Desativar inputs por parte do utilizador (sem animações)
-    ANIM=false
+
     //<X> , <Y> , <Z>
     camera.position.set(0,5,-18)
 
@@ -652,8 +642,6 @@ document.getElementById("btn_viewBack").addEventListener("click",function(){
 
 document.getElementById("btn_viewLeft").addEventListener("click",function(){
 
-    //Desativar inputs por parte do utilizador (sem animações)
-    ANIM=false
     //<X> , <Y> , <Z>
     camera.position.set(-22,5,0)
 
@@ -662,8 +650,6 @@ document.getElementById("btn_viewLeft").addEventListener("click",function(){
 
 document.getElementById("btn_viewRight").addEventListener("click",function(){
 
-    //Desativar inputs por parte do utilizador (sem animações)
-    ANIM=false
     //<X> , <Y> , <Z>
     camera.position.set(22,5,0)
 
@@ -686,7 +672,7 @@ event.preventDefault();
   mouse.x = ( ( event.clientX - rect.left ) / ( rect.right - rect.left ) ) * 2 - 1;
   mouse.y = - ( ( event.clientY - rect.top ) / ( rect.bottom - rect.top) ) * 2 + 1;
 
-
+    
     if(ANIM!=false){
         catchFirst()//identifica o Primeiro Objeto em 
     }
@@ -700,8 +686,6 @@ function catchFirst(){
 
     let intersectedArray  = raycaster.intersectObjects(objAnimated,true)
 
-    console.log(objAnimated)
-    console.log(intersectedArray )
 
     if(intersectedArray.length>0){
 
@@ -737,10 +721,8 @@ MEDIDAS
 */
 function hideMedidas(){
     for(let i=0;i<objMedidas.length;i++){
-        //console.log(objMedidas[i])
         objMedidas[i].visible= false
     }
-    //console.log(objMedidas)
     stsMedidas= false
     document.getElementById("customize").style.pointerEvents="auto"
     document.getElementById("sizeMovel").style.display="none"
@@ -786,7 +768,6 @@ DECOR
 
 function disableDecor(){
     
-    console.log("aquiii no DISdecor")
     for(let j=0;j<objs_Decor.length;j++){
         objs_Decor[j].visible=false
     }
@@ -874,7 +855,7 @@ function abrirGaveta(){
     //hideobjMedidas()
     acao3.play()
     ANIM_GAVETA=true
-    ANIM_PORTA=FALSE
+    ANIM_PORTA=false
 }
 
 function fecharGaveta(){
